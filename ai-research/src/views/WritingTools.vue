@@ -1,166 +1,39 @@
 <template>
   <div class="writing-tools">
-    <!-- 顶部应用类型导航 -->
-    <div class="app-types">
-      <div class="app-type-tabs">
-        <div 
-          class="app-type-tab" 
-          :class="{ active: activeAppType === 'all' }"
-          @click="switchAppType('all')"
-        >
-          <el-icon><grid /></el-icon>
-          <span>全部应用类型</span>
-        </div>
-        <div 
-          class="app-type-tab"
-          :class="{ active: activeAppType === 'generate' }"
-          @click="switchAppType('generate')"
-        >
-          <el-icon><histogram /></el-icon>
-          <span>生成类应用</span>
-        </div>
-        <div 
-          class="app-type-tab"
-          @click="showUnderConstruction('对话类应用')"
-        >
-          <el-icon><chat-round /></el-icon>
-          <span>对话类应用</span>
-        </div>
-        <div 
-          class="app-type-tab"
-          @click="showUnderConstruction('写作类应用')"
-        >
-          <el-icon><edit /></el-icon>
-          <span>写作类应用</span>
-        </div>
+    <!-- 顶部标题栏 -->
+    <div class="page-header">
+      <div class="header-left">
+        <el-icon class="light-bulb"><Promotion /></el-icon>
+        <h2 class="page-title">硕博论文写作</h2>
+        <span class="version">v1.0.0</span>
+      </div>
+      <div class="header-right">
       </div>
     </div>
-    
-    <!-- 功能标签选择 -->
-    <div class="function-tags">
-      <div class="tag-list">
-        <div 
-          v-for="tag in tags" 
-          :key="tag.value"
-          :class="['tag-item', { active: activeTag === tag.value }]"
-          @click="handleTagClick(tag.value)"
-        >
-          {{ tag.label }}
-        </div>
-      </div>
-    </div>
-    
     <!-- 应用卡片列表 -->
     <div class="application-list">
-      <!-- 第一行卡片 -->
-      <div class="card-row">
-        <div 
-          v-for="(app, index) in filteredApplications.slice(0, 3)" 
-          :key="index"
-          class="app-card"
-          @click="openApplication(app)"
-        >
-          <div class="card-header">
-            <div class="app-icon">
-              <el-icon :size="40" :color="app.iconColor">
-                <component :is="app.icon"></component>
-              </el-icon>
-            </div>
-            <div class="app-title">
-              <h3>{{ app.title }}</h3>
-              <el-tag size="small" type="warning">硕博课题</el-tag>
-            </div>
+      <div 
+        v-for="(app, index) in filteredApplications" 
+        :key="index"
+        class="app-card"
+        @click="openApplication(app)"
+      >
+        <div class="card-header">
+          <div class="app-icon">
+            <el-icon :size="40" :color="app.iconColor">
+              <component :is="app.icon"></component>
+            </el-icon>
           </div>
-          <div class="card-content">
-            <p>{{ app.description }}</p>
-          </div>
-          <div class="card-footer">
-            <el-icon><arrow-right /></el-icon>
+          <div class="app-title">
+            <h3>{{ app.title }}</h3>
+            <el-tag size="small" type="warning">硕博课题</el-tag>
           </div>
         </div>
-      </div>
-      
-      <!-- 第二行卡片 -->
-      <div class="card-row" v-if="filteredApplications.length > 3">
-        <div 
-          v-for="(app, index) in filteredApplications.slice(3, 6)" 
-          :key="index+3" 
-          class="app-card"
-          @click="openApplication(app)"
-        >
-          <div class="card-header">
-            <div class="app-icon">
-              <el-icon :size="40" :color="app.iconColor">
-                <component :is="app.icon"></component>
-              </el-icon>
-            </div>
-            <div class="app-title">
-              <h3>{{ app.title }}</h3>
-              <el-tag size="small" type="warning">硕博课题</el-tag>
-            </div>
-          </div>
-          <div class="card-content">
-            <p>{{ app.description }}</p>
-          </div>
-          <div class="card-footer">
-            <el-icon><arrow-right /></el-icon>
-          </div>
+        <div class="card-content">
+          <p>{{ app.description }}</p>
         </div>
-      </div>
-      
-      <!-- 第三行卡片 -->
-      <div class="card-row" v-if="filteredApplications.length > 6">
-        <div 
-          v-for="(app, index) in filteredApplications.slice(6, 9)" 
-          :key="index+6" 
-          class="app-card"
-          @click="openApplication(app)"
-        >
-          <div class="card-header">
-            <div class="app-icon">
-              <el-icon :size="40" :color="app.iconColor">
-                <component :is="app.icon"></component>
-              </el-icon>
-            </div>
-            <div class="app-title">
-              <h3>{{ app.title }}</h3>
-              <el-tag size="small" type="warning">硕博课题</el-tag>
-            </div>
-          </div>
-          <div class="card-content">
-            <p>{{ app.description }}</p>
-          </div>
-          <div class="card-footer">
-            <el-icon><arrow-right /></el-icon>
-          </div>
-        </div>
-      </div>
- 
-      <!-- 第四行卡片 -->
-      <div class="card-row" v-if="filteredApplications.length > 9">
-        <div 
-          v-for="(app, index) in filteredApplications.slice(9, 12)" 
-          :key="index+9" 
-          class="app-card"
-          @click="openApplication(app)"
-        >
-          <div class="card-header">
-            <div class="app-icon">
-              <el-icon :size="40" :color="app.iconColor">
-                <component :is="app.icon"></component>
-              </el-icon>
-            </div>
-            <div class="app-title">
-              <h3>{{ app.title }}</h3>
-              <el-tag size="small" type="warning">硕博课题</el-tag>
-            </div>
-          </div>
-          <div class="card-content">
-            <p>{{ app.description }}</p>
-          </div>
-          <div class="card-footer">
-            <el-icon><arrow-right /></el-icon>
-          </div>
+        <div class="card-footer">
+          <el-icon><arrow-right /></el-icon>
         </div>
       </div>
     </div>
@@ -332,14 +205,6 @@ export default defineComponent({
         iconColor: '#E6A23C',
         type: 'paper',
         appType: 'generate'
-      },
-      {
-        title: '期刊投稿与撤回',
-        description: '提供Nature、Science、Cell等顶级期刊的投稿指南和撤回流程。',
-        icon: 'Promotion',
-        iconColor: '#409EFF',
-        type: 'submit',
-        appType: 'generate'
       }
     ]);
     
@@ -421,9 +286,9 @@ export default defineComponent({
 
 <style scoped>
 .writing-tools {
-  padding: 20px;
+  padding: 0 20px 40px 20px;
   background-color: #f5f7fa;
-  min-height: 100%;
+  box-sizing: border-box;
 }
 
 .app-types {
@@ -502,6 +367,13 @@ export default defineComponent({
   margin-bottom: 25px;
 }
 
+.application-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 0 20px;
+}
+
 .app-card {
   flex: 1;
   background-color: white;
@@ -511,7 +383,7 @@ export default defineComponent({
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
-  min-height: 220px;
+  min-height: 200px;
   cursor: pointer;
   border: 2px solid transparent;
   position: relative;
@@ -589,5 +461,41 @@ export default defineComponent({
 .el-tag {
   border-radius: 4px;
   padding: 2px 8px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  height: 64px;
+  margin-bottom: 28px;
+  margin-top: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.light-bulb {
+  color: #409EFF;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.version {
+  margin-left: 10px;
+  color: #999;
+  font-size: 14px;
 }
 </style> 

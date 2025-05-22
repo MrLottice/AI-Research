@@ -1,16 +1,20 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import Home from '../components/Home.vue';
+import HomePage from '../components/HomePage.vue';
 import WritingTools from '../views/WritingTools.vue';
 import MasterThesisProposalOutline from '../views/MasterThesisProposalOutline.vue';
 import JournalSubmission from '../views/JournalSubmission.vue';
 import NatureGeneticsSubmission from '../views/NatureGeneticsSubmission.vue';
 import NatureCommunicationsSubmission from '../views/NatureCommunicationsSubmission.vue';
+import ReviewWriting from '../views/ReviewWriting.vue';
+import MolecularBiology from '../views/MolecularBiology.vue';
+import ProjectReview from '../views/ProjectReview.vue';
+import FundProjectReview from '../views/FundProjectReview.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'HomePage',
+    component: HomePage,
     children: [
       {
         path: 'collaboration',
@@ -21,6 +25,16 @@ const routes: Array<RouteRecordRaw> = [
         path: 'journal-submission',
         name: 'JournalSubmission',
         component: JournalSubmission
+      },
+      {
+        path: 'review-writing',
+        name: 'ReviewWriting',
+        component: ReviewWriting
+      },
+      {
+        path: 'project-review',
+        name: 'ProjectReview',
+        component: ProjectReview
       }
     ]
   },
@@ -38,6 +52,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/nature-communications-submission',
     name: 'NatureCommunicationsSubmission',
     component: NatureCommunicationsSubmission
+  },
+  {
+    path: '/molecular-biology',
+    name: 'MolecularBiology',
+    component: MolecularBiology
+  },
+  {
+    path: '/fund-project-review',
+    name: 'FundProjectReview',
+    component: FundProjectReview
   }
 ];
 

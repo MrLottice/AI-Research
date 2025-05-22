@@ -4,14 +4,10 @@
     <div class="page-header">
       <div class="header-left">
         <el-icon class="light-bulb"><Promotion /></el-icon>
-        <h2 class="page-title">期刊投稿与撤回</h2>
+        <h2 class="page-title">期刊投稿</h2>
         <span class="version">v1.0.0</span>
       </div>
       <div class="header-right">
-        <el-button class="tutorial-btn" type="primary" plain size="small">
-          <el-icon><VideoPlay /></el-icon>
-          <span>演示教程</span>
-        </el-button>
       </div>
     </div>
 
@@ -38,16 +34,29 @@
           class="journal-card"
           @click="openJournal(journal)"
         >
-          <div class="journal-header">
-            <h3 class="journal-title">{{ journal.title }}</h3>
-            <el-tag
-              :type="getImpactFactorType(journal.impactFactor)"
-              class="impact-factor"
-            >
-              IF: {{ journal.impactFactor }}
-            </el-tag>
+          <div class="card-header">
+            <div class="app-icon">
+              <el-icon :size="40" :color="getIconColor(journal.category)">
+                <component :is="getJournalIcon(journal.category)"></component>
+              </el-icon>
+            </div>
+            <div class="app-title">
+              <h3 class="journal-title">{{ journal.title }}</h3>
+              <el-tag
+                :type="getImpactFactorType(journal.impactFactor)"
+                size="small"
+                class="impact-factor"
+              >
+                IF: {{ journal.impactFactor }}
+              </el-tag>
+            </div>
           </div>
-          <p class="journal-description">{{ journal.description }}</p>
+          <div class="card-content">
+             <p class="journal-description">{{ journal.description }}</p>
+          </div>
+           <div class="card-footer">
+            <el-icon><arrow-right /></el-icon>
+          </div>
         </el-card>
       </div>
     </div>
@@ -60,7 +69,10 @@ import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { 
   Promotion,
-  VideoPlay
+  Document,
+  Tools,
+  FirstAidKit,
+  ArrowRight
 } from '@element-plus/icons-vue';
 
 interface Journal {
@@ -75,7 +87,10 @@ export default defineComponent({
   name: 'JournalSubmission',
   components: {
     Promotion,
-    VideoPlay
+    Document,
+    Tools,
+    FirstAidKit,
+    ArrowRight
   },
   setup() {
     const activeTag = ref('all');
@@ -162,6 +177,36 @@ export default defineComponent({
       if (impactFactor >= 10) return 'warning';
       return 'success';
     };
+
+    const getJournalIcon = (category: string) => {
+      switch (category) {
+        case 'Nature':
+          return Document;
+        case 'Science':
+          return Tools;
+        case 'Cell':
+          return Document;
+        case 'Medicine':
+          return FirstAidKit;
+        default:
+          return Document;
+      }
+    };
+
+    const getIconColor = (category: string) => {
+      switch (category) {
+        case 'Nature':
+          return '#F56C6C'; // 红色
+        case 'Science':
+          return '#67C23A'; // 绿色
+        case 'Cell':
+          return '#E6A23C'; // 黄色
+        case 'Medicine':
+          return '#409EFF'; // 蓝色
+        default:
+          return '#909399'; // 灰色
+      }
+    };
     
     return {
       activeTag,
@@ -170,7 +215,9 @@ export default defineComponent({
       filteredJournals,
       openJournal,
       getImpactFactorType,
-      handleTagClick
+      handleTagClick,
+      getJournalIcon,
+      getIconColor
     };
   }
 });
@@ -180,18 +227,27 @@ export default defineComponent({
 .journal-submission-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #f9f9f9;
+  width: 100%;
+  min-height: 100%;
+  background: #f9f9f9;
+  padding: 0;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 0 30px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   height: 64px;
+  margin-bottom: 28px;
+  margin-top: 0;
+  max-width: 98%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
 .header-left {
@@ -226,68 +282,133 @@ export default defineComponent({
 
 .category-tags {
   display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
+  gap: 18px;
+  margin-bottom: 36px;
   flex-wrap: wrap;
 }
 
 .category-tag {
   cursor: pointer;
   transition: all 0.3s;
-  padding: 10px 25px;
-  font-size: 16px;
+  padding: 12px 32px;
+  font-size: 18px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(64,158,255,0.08);
+  color: #409EFF;
+  border: 1.5px solid #e6f0fa;
+  font-weight: 500;
+  margin-bottom: 6px;
 }
 
 .category-tag:hover {
-  transform: translateY(-2px);
+  background: #ecf5ff;
+  color: #1769aa;
+  box-shadow: 0 4px 16px rgba(64,158,255,0.15);
+  border-color: #b3d8fd;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.category-tag.el-tag--primary,
+.category-tag.primary,
+.category-tag.selected {
+  background: linear-gradient(90deg, #409EFF 60%, #67C23A 100%);
+  color: #fff;
+  border-color: #409EFF;
+  box-shadow: 0 4px 16px rgba(64,158,255,0.18);
 }
 
 .journal-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 30px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 0;
+  align-items: stretch;
 }
 
 .journal-card {
   cursor: pointer;
   transition: all 0.3s;
   height: 100%;
-  padding: 25px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.journal-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #409EFF, #67C23A, #E6A23C, #F56C6C);
+  transform: translateY(5px);
+  transition: transform 0.3s;
 }
 
 .journal-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #eaeaea;
 }
 
-.journal-header {
+.journal-card:hover::after {
+  transform: translateY(0);
+}
+
+.card-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.app-icon {
+  margin-right: 15px;
+}
+
+.app-title {
+  flex: 1;
 }
 
 .journal-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   color: #333;
-  flex: 1;
-  margin-right: 15px;
+  margin-bottom: 5px;
 }
 
 .impact-factor {
   flex-shrink: 0;
-  font-size: 16px;
-  padding: 8px 15px;
+  font-size: 14px;
+  padding: 4px 8px;
+}
+
+.card-content {
+  flex: 1;
+  margin-bottom: 15px;
 }
 
 .journal-description {
   margin: 0;
   color: #666;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #909399;
+  font-size: 18px;
 }
 
 /* 自定义滚动条样式 */
