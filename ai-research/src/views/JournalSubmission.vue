@@ -322,7 +322,7 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
-  padding: 0;
+  padding: 0 20px;
   align-items: stretch;
 }
 
@@ -336,7 +336,7 @@ export default defineComponent({
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  min-height: 200px;
+  min-height: 230px;
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
@@ -372,6 +372,13 @@ export default defineComponent({
 
 .app-icon {
   margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #f5f7fa;
 }
 
 .app-title {
@@ -379,11 +386,10 @@ export default defineComponent({
 }
 
 .journal-title {
-  margin: 0;
-  font-size: 20px;
+  margin: 0 0 8px 0;
+  font-size: 18px;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
+  color: #303133;
 }
 
 .impact-factor {
@@ -393,22 +399,33 @@ export default defineComponent({
 }
 
 .card-content {
-  flex: 1;
+  flex-grow: 1;
+  color: #606266;
+  font-size: 15px;
+  line-height: 1.6;
   margin-bottom: 15px;
 }
 
 .journal-description {
   margin: 0;
-  color: #666;
+  color: #606266;
   font-size: 15px;
+  line-height: 1.6;
 }
 
 .card-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: #909399;
-  font-size: 18px;
+  margin-top: 18px;
+  text-align: right;
+  color: #409EFF;
+  font-size: 16px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s;
+}
+
+.journal-card:hover .card-footer {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* 自定义滚动条样式 */

@@ -67,7 +67,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
-import { Promotion, Document, Files, Opportunity, Beaker, ArrowRight } from '@element-plus/icons-vue';
+import { Promotion, Document, Files, Opportunity, ArrowRight, Cpu } from '@element-plus/icons-vue';
 
 interface Review {
   id: number;
@@ -176,7 +176,7 @@ const getReviewIcon = (category: string) => {
     case 'biology':
       return Files;
     case 'chemistry':
-      return Beaker;
+      return Cpu;
     case 'physics':
       return Opportunity;
     default:
@@ -287,7 +287,10 @@ const getIconColor = (category: string) => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
-  padding: 0;
+  padding: 0 20px;
+  align-items: stretch;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .review-card {
@@ -336,6 +339,13 @@ const getIconColor = (category: string) => {
 
 .app-icon {
   margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #f5f7fa;
 }
 
 .app-title {
@@ -343,11 +353,10 @@ const getIconColor = (category: string) => {
 }
 
 .review-title {
-  margin: 0;
-  font-size: 20px;
+  margin: 0 0 8px 0;
+  font-size: 18px;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
+  color: #303133;
 }
 
 .type-tag {
@@ -357,21 +366,32 @@ const getIconColor = (category: string) => {
 }
 
 .card-content {
-  flex: 1;
+  flex-grow: 1;
+  color: #606266;
+  font-size: 15px;
+  line-height: 1.6;
   margin-bottom: 15px;
 }
 
 .review-description {
   margin: 0;
-  color: #666;
+  color: #606266;
   font-size: 15px;
+  line-height: 1.6;
 }
 
 .card-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: #909399;
-  font-size: 18px;
+  margin-top: 18px;
+  text-align: right;
+  color: #409EFF;
+  font-size: 16px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s;
+}
+
+.review-card:hover .card-footer {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style>

@@ -26,6 +26,8 @@ DIFY_API_URL = "http://127.0.0.1/v1/workflows/run"  # 工作流API地址
 DIFY_API_KEY_MASTER_THESIS = "app-kSen0waSQPEPOnA2UzLMx6Rq"  # 硕士论文全文
 DIFY_API_KEY_MASTER_THESIS_PROPOSAL = "app-E1DJgX17BuUgg05Ir3vUjzRS"  # 硕士论文开题报告
 DIFY_API_KEY_SCI_PAPER = "app-mO9dbv8X9aURZsfm6JKJjiqy" # nature论文
+DIFY_API_KEY_REVIEW = "app-wx9y0mYWgTkWKe2XYJbkPJHk" # 综述写作
+DIFY_API_KEY_PROJECTREVIEW = "app-RpWORxhGfQgKNvc4ih6h3AOK" # 项目申请书
 DIFY_UPLOAD_URL = "http://127.0.0.1/v1/files/upload"  # Dify文件上传API地址
 
 
@@ -216,6 +218,12 @@ def dify_api():
         elif theme == 'sci_paper':
             api_key = DIFY_API_KEY_SCI_PAPER
             print(f"使用sci论文API key")
+        elif theme == 'review':
+            api_key = DIFY_API_KEY_REVIEW
+            print(f"使用综述写作API key")
+        elif theme == 'project_review':
+            api_key = DIFY_API_KEY_PROJECTREVIEW
+            print(f"使用项目申请书API key")
         else:
             return jsonify({
                 'message': 'error',
@@ -327,8 +335,8 @@ def dify_api():
             'status': str(e)
         }), 500
 
-@app.route('/upload_file', methods=['POST'])
-def upload_file():
+@app.route('/upload_and_analyze', methods=['POST'])
+def upload_and_analyze():
     try:
         if 'file' not in request.files:
             return jsonify({
@@ -344,62 +352,140 @@ def upload_file():
             }), 400
 
         # 获取主题参数
-        theme = request.form.get('theme', 'master_thesis')  # 默认为硕士论文全文
+        theme = request.form.get('theme', 'project_review')  # 默认为项目申请书
         
         # 根据主题选择不同的API key
         api_key = ""
-        if theme == 'master_thesis':
-            api_key = DIFY_API_KEY_MASTER_THESIS
-            print(f"使用硕士论文全文API key")
-        elif theme == 'master_thesis_proposal':
-            api_key = DIFY_API_KEY_MASTER_THESIS_PROPOSAL
-            print(f"使用硕士论文开题报告API key")
+        if theme == 'project_review':
+            api_key = DIFY_API_KEY_PROJECTREVIEW
+            print(f"使用项目申请书API key")
         else:
             return jsonify({
                 'message': 'error',
                 'status': f'不支持的主题: {theme}'
             }), 400
 
-        # 准备发送到Dify的请求
+        # 准备发送到Dify的请求头
         dify_headers = {
-            'Authorization': f'Bearer {api_key}',
+            'Authorization': f'Bearer {api_key}'
         }
 
-        # 发送文件到Dify
-        files = {
-            'file': (file.filename, file.stream, file.content_type)
-        }
+        # 生成用户标识
+        user_id = 'user_' + datetime.now().strftime('%Y%m%d%H%M%S')
         
+        # 第一步：上传文件
         print("\n=== 上传文件到Dify ===")
         print(f"文件名: {file.filename}")
         print(f"主题: {theme}")
         
-        dify_response = requests.post(
+        # 确保文件流位于开始位置
+        file.seek(0)
+        
+        files = {
+            'file': (file.filename, file.stream, file.content_type)
+        }
+        
+        # 添加user参数到form data
+        form_data = {
+            'user': user_id,
+            'type': 'DOCX'  # 设置文件类型
+        }
+        
+        upload_response = requests.post(
             DIFY_UPLOAD_URL,
             headers=dify_headers,
-            files=files
+            files=files,
+            data=form_data
         )
 
-        if dify_response.status_code != 200:
-            print(f"Dify API错误: {dify_response.status_code}")
-            print(f"错误信息: {dify_response.text}")
+        if upload_response.status_code not in [200, 201]:
+            print(f"Dify文件上传错误: {upload_response.status_code}")
+            print(f"错误信息: {upload_response.text}")
             return jsonify({
                 'message': 'error',
-                'status': f'文件上传失败: {dify_response.status_code}'
+                'status': f'文件上传失败: {upload_response.status_code}'
             }), 500
 
-        # 解析Dify响应
-        dify_data = dify_response.json()
-        print("\n=== 收到Dify响应 ===")
-        print(f"响应状态: {dify_response.status_code}")
-        print(f"完整响应: {json.dumps(dify_data, ensure_ascii=False, indent=2)}")
+        # 解析上传响应
+        upload_data = upload_response.json()
+        file_id = upload_data.get('id')
+        
+        print(f"文件上传成功，ID: {file_id}")
 
-        return jsonify({
-            'message': 'success',
-            'status': '文件上传成功',
-            'file_id': dify_data.get('id', ''),
-            'file_name': dify_data.get('name', '')
-        })
+        # 第二步：发送分析请求
+        dify_headers['Content-Type'] = 'application/json'
+        
+        analysis_payload = {
+            'inputs': {
+                'files': [{
+                    'transfer_method': 'local_file',
+                    'upload_file_id': file_id,
+                    'type': 'document'
+                }]
+            },
+            'response_mode': 'streaming',
+            'user': user_id
+        }
+
+        print("\n=== 发送分析请求到Dify ===")
+        print(f"分析请求体: {json.dumps(analysis_payload, ensure_ascii=False, indent=2)}")
+
+        def generate():
+            try:
+                analysis_response = requests.post(
+                    DIFY_API_URL,
+                    headers=dify_headers,
+                    json=analysis_payload,
+                    stream=True
+                )
+
+                if analysis_response.status_code != 200:
+                    error_data = {
+                        'type': 'error',
+                        'message': f'分析请求失败: {analysis_response.status_code}'
+                    }
+                    yield f"data: {json.dumps(error_data, ensure_ascii=False)}\n\n"
+                    return
+
+                full_text = ""
+                print("\n=== 开始生成分析结果 ===")
+                for line in analysis_response.iter_lines():
+                    if line:
+                        line = line.decode('utf-8')
+                        if line.startswith('data: '):
+                            try:
+                                data = json.loads(line[6:])
+                                if data.get('event') == 'text_chunk' and 'data' in data and 'text' in data['data']:
+                                    text_chunk = data['data']['text']
+                                    full_text += text_chunk
+                                    print(text_chunk, end='', flush=True)
+                                    response_data = {
+                                        'type': 'text',
+                                        'content': text_chunk,
+                                        'full_text': full_text
+                                    }
+                                    yield f"data: {json.dumps(response_data, ensure_ascii=False)}\n\n"
+                                elif data.get('event') == 'done':
+                                    response_data = {
+                                        'type': 'done',
+                                        'full_text': full_text
+                                    }
+                                    yield f"data: {json.dumps(response_data, ensure_ascii=False)}\n\n"
+                                else:
+                                    yield f"data: {json.dumps(data, ensure_ascii=False)}\n\n"
+                            except json.JSONDecodeError as e:
+                                print(f"\nJSON解析错误: {str(e)}")
+                                continue
+                print("\n=== 分析完成 ===")
+            except Exception as e:
+                print(f"\n流式处理错误: {str(e)}")
+                error_data = {
+                    'type': 'error',
+                    'message': str(e)
+                }
+                yield f"data: {json.dumps(error_data, ensure_ascii=False)}\n\n"
+
+        return Response(generate(), mimetype='text/event-stream')
 
     except Exception as e:
         print(f"\n发生错误: {str(e)}")
@@ -410,6 +496,7 @@ def upload_file():
             'message': 'error',
             'status': str(e)
         }), 500
+
 
 # 错误处理
 @app.errorhandler(404)
