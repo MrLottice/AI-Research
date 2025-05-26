@@ -10,31 +10,54 @@
       <div class="header-right">
       </div>
     </div>
-    <!-- 应用卡片列表 -->
-    <div class="application-list">
-      <div 
-        v-for="(app, index) in filteredApplications" 
-        :key="index"
-        class="app-card"
-        @click="openApplication(app)"
-      >
-        <div class="card-header">
-          <div class="app-icon">
-            <el-icon :size="40" :color="app.iconColor">
-              <component :is="app.icon"></component>
-            </el-icon>
+
+    <!-- 主要内容区 -->
+    <div class="main-content">
+      <!-- 分类标签 -->
+      <div class="category-tags">
+        <el-tag
+          v-for="tag in tags"
+          :key="tag.value"
+          :type="activeTag === tag.value ? 'primary' : 'info'"
+          class="category-tag"
+          @click="handleTagClick(tag.value)"
+        >
+          {{ tag.label }}
+        </el-tag>
+      </div>
+
+      <!-- 应用卡片列表 -->
+      <div class="application-cards">
+        <el-card
+          v-for="app in filteredApplications"
+          :key="app.title"
+          class="app-card"
+          @click="openApplication(app)"
+        >
+          <div class="card-header">
+            <div class="app-icon">
+              <el-icon :size="40" :color="app.iconColor">
+                <component :is="app.icon"></component>
+              </el-icon>
+            </div>
+            <div class="app-title">
+              <h3 class="app-title-text">{{ app.title }}</h3>
+              <el-tag
+                :type="getTagType(app.type)"
+                size="small"
+                class="type-tag"
+              >
+                {{ getTagLabel(app.type) }}
+              </el-tag>
+            </div>
           </div>
-          <div class="app-title">
-            <h3>{{ app.title }}</h3>
-            <el-tag size="small" type="warning">硕博课题</el-tag>
+          <div class="card-content">
+            <p class="app-description">{{ app.description }}</p>
           </div>
-        </div>
-        <div class="card-content">
-          <p>{{ app.description }}</p>
-        </div>
-        <div class="card-footer">
-          <el-icon><arrow-right /></el-icon>
-        </div>
+          <div class="card-footer">
+            <el-icon><arrow-right /></el-icon>
+          </div>
+        </el-card>
       </div>
     </div>
   </div>
@@ -98,15 +121,8 @@ export default defineComponent({
     
     const tags = [
       { label: '全部', value: 'all' },
-      { label: '分步论文写作', value: 'paper' },
-      { label: '综述写作', value: 'abstract' },
-      { label: '文章段落写作', value: 'paragraph' },
-      { label: '预读课题', value: 'preread' },
-      { label: '辅助工具', value: 'tools' },
-      { label: '投稿与修回', value: 'submit' },
-      { label: '专利申请', value: 'patent' },
-      { label: '出国留学', value: 'abroad' },
-      { label: '翻译工具', value: 'translation' }
+      { label: '硕士研究生', value: 'master' },
+      { label: '博士研究生', value: 'doctor' }
     ];
     
     const applications = ref([
@@ -115,7 +131,7 @@ export default defineComponent({
         description: '输入硕士课题要点及其相关补充材料（关键词、实验方法等），生成课题开题报告大纲。',
         icon: 'Files',
         iconColor: '#409EFF',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -123,7 +139,7 @@ export default defineComponent({
         description: '用户输入开题报告大纲，生成开题报告全文。',
         icon: 'DocumentChecked',
         iconColor: '#67C23A',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -131,7 +147,7 @@ export default defineComponent({
         description: '用户输入课题名称、已完成的实验结果和未来研究计划，生成研究生学位论文中期报告。',
         icon: 'Notebook',
         iconColor: '#E6A23C',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -139,7 +155,7 @@ export default defineComponent({
         description: '用户输入实验方法和结果，生成硕士论文提纲。',
         icon: 'Document',
         iconColor: '#F56C6C',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -147,7 +163,7 @@ export default defineComponent({
         description: '用户输入实验方法、结果和理论，生成硕士论文前言部分。',
         icon: 'Collection',
         iconColor: '#909399',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -155,7 +171,7 @@ export default defineComponent({
         description: '用户输入实验方法、结果和理论，生成硕士论文正文部分。',
         icon: 'DocumentCopy',
         iconColor: '#409EFF',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -163,7 +179,7 @@ export default defineComponent({
         description: '输入科研计划的课题范围或目标研究方向、分子、通路等信息，生成科研计划书提纲。',
         icon: 'DataAnalysis',
         iconColor: '#67C23A',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -171,7 +187,7 @@ export default defineComponent({
         description: '输入科研计划书提纲，生成科研计划书正文。',
         icon: 'Management',
         iconColor: '#E6A23C',
-        type: 'paper',
+        type: 'master',
         appType: 'generate'
       },
       {
@@ -179,7 +195,7 @@ export default defineComponent({
         description: '输入博士课题要点及其相关补充材料（关键词、实验方法等），生成课题开题报告大纲。',
         icon: 'DocumentAdd',
         iconColor: '#F56C6C',
-        type: 'paper',
+        type: 'doctor',
         appType: 'generate'
       },
       {
@@ -187,7 +203,7 @@ export default defineComponent({
         description: '用户输入开题报告大纲，生成开题报告全文。',
         icon: 'Document',
         iconColor: '#409EFF',
-        type: 'paper',
+        type: 'doctor',
         appType: 'generate'
       },
       {
@@ -195,7 +211,7 @@ export default defineComponent({
         description: '用户输入实验方法和结果，生成博士论文的摘要部分。',
         icon: 'EditPen',
         iconColor: '#67C23A',
-        type: 'paper',
+        type: 'doctor',
         appType: 'generate'
       },
       {
@@ -203,7 +219,15 @@ export default defineComponent({
         description: '用户输入论文主题、实验方法和结果，生成博士论文的前言部分，运用最新和课题设计。',
         icon: 'Reading',
         iconColor: '#E6A23C',
-        type: 'paper',
+        type: 'doctor',
+        appType: 'generate'
+      },
+      {
+        title: '博士论文Step 3: 生成正文',
+        description: '用户输入实验方法、结果和理论，生成博士论文正文部分。',
+        icon: 'DocumentCopy',
+        iconColor: '#F56C6C',
+        type: 'doctor',
         appType: 'generate'
       }
     ]);
@@ -244,12 +268,12 @@ export default defineComponent({
       
       // 根据应用标题判断跳转路径
       if (app.title === '硕士开题报告Step 1: 生成提纲') {
-        router.push('/thesis-outline');
+        window.open('/thesis-outline', '_blank');
         return;
       }
       
       if (app.title === '期刊投稿与撤回') {
-        router.push('/journal-submission');
+        window.open('/journal-submission', '_blank');
         return;
       }
       
@@ -269,6 +293,28 @@ export default defineComponent({
       }
     };
     
+    const getTagType = (type: string) => {
+      switch (type) {
+        case 'master':
+          return 'success';
+        case 'doctor':
+          return 'danger';
+        default:
+          return 'info';
+      }
+    };
+    
+    const getTagLabel = (type: string) => {
+      switch (type) {
+        case 'master':
+          return '硕士生';
+        case 'doctor':
+          return '博士生';
+        default:
+          return '通用';
+      }
+    };
+    
     return {
       activeTag,
       activeAppType,
@@ -278,7 +324,9 @@ export default defineComponent({
       switchAppType,
       showUnderConstruction,
       openApplication,
-      handleTagClick
+      handleTagClick,
+      getTagType,
+      getTagLabel
     };
   }
 });
@@ -497,5 +545,157 @@ export default defineComponent({
   margin-left: 10px;
   color: #999;
   font-size: 14px;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.category-tags {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.category-tag {
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 12px 32px;
+  font-size: 18px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(64,158,255,0.08);
+  color: #409EFF;
+  border: 1.5px solid #e6f0fa;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.category-tag:hover {
+  background: #ecf5ff;
+  color: #1769aa;
+  box-shadow: 0 4px 16px rgba(64,158,255,0.15);
+  border-color: #b3d8fd;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.category-tag.el-tag--primary {
+  background: linear-gradient(90deg, #409EFF 60%, #67C23A 100%);
+  color: #fff;
+  border-color: #409EFF;
+  box-shadow: 0 4px 16px rgba(64,158,255,0.18);
+}
+
+.application-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 0 20px;
+  align-items: stretch;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.app-card {
+  cursor: pointer;
+  transition: all 0.3s;
+  height: 100%;
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #409EFF, #67C23A, #E6A23C, #F56C6C);
+  transform: translateY(5px);
+  transition: transform 0.3s;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #eaeaea;
+}
+
+.app-card:hover::after {
+  transform: translateY(0);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.app-icon {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #f5f7fa;
+}
+
+.app-title {
+  flex: 1;
+}
+
+.app-title-text {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.type-tag {
+  flex-shrink: 0;
+  font-size: 14px;
+  padding: 4px 8px;
+}
+
+.card-content {
+  flex-grow: 1;
+  color: #606266;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.app-description {
+  margin: 0;
+  color: #606266;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.card-footer {
+  margin-top: 18px;
+  text-align: right;
+  color: #409EFF;
+  font-size: 16px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s;
+}
+
+.app-card:hover .card-footer {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style> 

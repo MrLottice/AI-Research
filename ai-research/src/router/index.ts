@@ -9,6 +9,7 @@ import ReviewWriting from '../views/ReviewWriting.vue';
 import MolecularBiology from '../views/MolecularBiology.vue';
 import ProjectReview from '../views/ProjectReview.vue';
 import FundProjectReview from '../views/FundProjectReview.vue';
+import GeneralFundWriting from '../views/GeneralFundWriting.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -35,6 +36,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'project-review',
         name: 'ProjectReview',
         component: ProjectReview
+      },
+      {
+        path: 'fund-writing',
+        name: 'FundWriting',
+        component: () => import('../views/FundWriting.vue')
       }
     ]
   },
@@ -62,6 +68,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/fund-project-review',
     name: 'FundProjectReview',
     component: FundProjectReview
+  },
+  {
+    path: '/fund-general',
+    name: 'GeneralFundWriting',
+    component: GeneralFundWriting
   }
 ];
 

@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { Promotion, Document, Files, Opportunity, ArrowRight, Cpu } from '@element-plus/icons-vue';
 
@@ -78,7 +77,6 @@ interface Review {
 }
 
 const activeTag = ref('all');
-const router = useRouter();
 
 const tags = [
   { label: '全部', value: 'all' },
@@ -148,7 +146,7 @@ const filteredReviews = computed(() => {
 const openReview = (review: Review) => {
   console.log('Opening review:', review.title);
   if (review.title === '分子生物学前沿') {
-    router.push('/molecular-biology');
+    window.open('/molecular-biology', '_blank');
   } else {
     ElMessage.info('该综述详情页面正在开发中，敬请期待！');
   }

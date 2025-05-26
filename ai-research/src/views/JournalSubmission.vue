@@ -65,7 +65,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { 
   Promotion,
@@ -94,7 +93,6 @@ export default defineComponent({
   },
   setup() {
     const activeTag = ref('all');
-    const router = useRouter();
     
     const tags = [
       { label: '全部', value: 'all' },
@@ -164,9 +162,9 @@ export default defineComponent({
     const openJournal = (journal: Journal) => {
       console.log('Opening journal:', journal.title);
       if (journal.title === 'Nature Genetics') {
-        router.push('/nature-genetics-submission');
+        window.open('/nature-genetics-submission', '_blank');
       } else if (journal.title === 'Nature Communications') {
-        router.push('/nature-communications-submission');
+        window.open('/nature-communications-submission', '_blank');
       } else {
         ElMessage.info('该期刊的投稿指南正在开发中，敬请期待！');
       }
@@ -225,59 +223,49 @@ export default defineComponent({
 
 <style scoped>
 .journal-submission-container {
-  display: flex;
-  flex-direction: column;
+  padding: 20px;
   width: 100%;
-  min-height: 100%;
-  background: #f9f9f9;
-  padding: 0;
+  box-sizing: border-box;
+  background-color: #f5f7fa;
+  margin-top: -25px;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  height: 64px;
-  margin-bottom: 28px;
-  margin-top: 0;
-  max-width: 98%;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-
+  margin-bottom: 30px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.05);
 }
 
 .header-left {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .light-bulb {
-  color: #409EFF;
   font-size: 24px;
-  margin-right: 10px;
+  color: #409EFF;
 }
 
 .page-title {
-  margin: 0;
   font-size: 20px;
-  font-weight: 600;
   color: #333;
+  margin: 0;
+  font-weight: 600;
 }
 
 .version {
-  margin-left: 10px;
-  color: #999;
   font-size: 14px;
+  color: #909399;
+  margin-left: 8px;
 }
 
 .main-content {
-  flex: 1;
-  padding: 30px;
-  overflow-y: auto;
+  padding: 20px;
 }
 
 .category-tags {
@@ -309,9 +297,7 @@ export default defineComponent({
   transform: translateY(-2px) scale(1.04);
 }
 
-.category-tag.el-tag--primary,
-.category-tag.primary,
-.category-tag.selected {
+.category-tag.el-tag--primary {
   background: linear-gradient(90deg, #409EFF 60%, #67C23A 100%);
   color: #fff;
   border-color: #409EFF;
@@ -324,6 +310,8 @@ export default defineComponent({
   gap: 25px;
   padding: 0 20px;
   align-items: stretch;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .journal-card {
@@ -336,7 +324,7 @@ export default defineComponent({
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  min-height: 230px;
+  min-height: 200px;
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;

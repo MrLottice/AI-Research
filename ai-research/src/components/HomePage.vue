@@ -161,6 +161,8 @@ const handleMenuSelect = (index: string) => {
     router.push('/journal-submission');
   } else if (index === 'review') {
     router.push('/review-writing');
+  } else if (index === 'nsfc') {
+    router.push('/fund-writing');
   } else if (index === 'paper-review') {
     router.push('/project-review');
   }
@@ -193,6 +195,8 @@ watch(
       activeMenuItem.value = 'paper-review';
     } else if (newPath === '/molecular-biology') { // 分子生物学 path
       activeMenuItem.value = 'molecular-biology';
+    } else if (newPath === '/fund-writing') { // 国自然基金 path
+      activeMenuItem.value = 'nsfc';
     }
   },
   { immediate: true }

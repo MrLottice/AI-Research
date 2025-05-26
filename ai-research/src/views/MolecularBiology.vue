@@ -23,14 +23,14 @@
         <div class="input-block">
           <div class="input-label">
             <el-icon class="label-icon blue"><Medal /></el-icon>
-            <span class="label-text">论文题目<span class="required">*</span></span>
+            <span class="label-text">综述题目<span class="required">*</span></span>
           </div>
           <el-input
             type="textarea"
             v-model="paperInfo"
             :rows="4"
             :maxlength="2000"
-            placeholder="请输入论文的题目"
+            placeholder="请输入综述的题目"
           />
           <div class="char-count">{{ paperInfo.length }} / 2000</div>
         </div>
@@ -46,7 +46,7 @@
             v-model="supplementaryInfo"
             :rows="8"
             :maxlength="5000"
-            placeholder="请输入论文的关键词、实验过程、实验结果、创新点等信息"
+            placeholder="请输入需要生成的综述补充材料"
           />
           <div class="char-count">{{ supplementaryInfo.length }} / 5000</div>
         </div>

@@ -1,10 +1,10 @@
 <template>
-  <div class="review-writing">
+  <div class="fund-writing">
     <!-- 顶部标题栏 -->
     <div class="page-header">
       <div class="header-left">
-        <el-icon class="light-bulb"><Promotion /></el-icon>
-        <h2 class="page-title">项目评审</h2>
+        <el-icon class="light-bulb"><Money /></el-icon>
+        <h2 class="page-title">国家自然科学基金</h2>
         <span class="version">v1.0.0</span>
       </div>
       <div class="header-right">
@@ -26,33 +26,33 @@
         </el-tag>
       </div>
 
-      <!-- 评审卡片列表 -->
-      <div class="review-cards">
+      <!-- 基金卡片列表 -->
+      <div class="fund-cards">
         <el-card
-          v-for="review in filteredReviews"
-          :key="review.id"
-          class="review-card"
-          @click="handleReviewSelect(review.type)"
+          v-for="fund in filteredFunds"
+          :key="fund.id"
+          class="fund-card"
+          @click="handleFundSelect(fund)"
         >
           <div class="card-header">
             <div class="app-icon">
-              <el-icon :size="40" :color="review.iconColor">
-                <component :is="review.icon"></component>
+              <el-icon :size="40" :color="fund.iconColor">
+                <component :is="fund.icon"></component>
               </el-icon>
             </div>
             <div class="app-title">
-              <h3 class="review-title">{{ review.title }}</h3>
+              <h3 class="fund-title">{{ fund.title }}</h3>
               <el-tag
-                :type="review.tagType"
+                :type="fund.tagType"
                 size="small"
                 class="type-tag"
               >
-                {{ review.label }}
+                {{ fund.label }}
               </el-tag>
             </div>
           </div>
           <div class="card-content">
-            <p class="review-description">{{ review.description }}</p>
+            <p class="fund-description">{{ fund.description }}</p>
           </div>
           <div class="card-footer">
             <el-icon><arrow-right /></el-icon>
@@ -67,11 +67,10 @@
 import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import { 
-  Promotion,
-  Document,
-  Files,
-  Histogram,
   Money,
+  Document,
+  Collection,
+  Opportunity,
   Medal,
   ArrowRight
 } from '@element-plus/icons-vue';
@@ -80,94 +79,89 @@ const activeTag = ref('all');
 
 const tags = [
   { label: '全部', value: 'all' },
-  { label: '论文评审', value: 'paper' },
-  { label: '项目评审', value: 'project' },
-  { label: '基金评审', value: 'fund' },
-  { label: '专利评审', value: 'patent' }
+  { label: '面上项目', value: 'general' },
+  { label: '青年基金', value: 'youth' },
+  { label: '重点项目', value: 'key' },
+  { label: '创新研究群体', value: 'group' }
 ];
 
 const handleTagClick = (tag: string) => {
   activeTag.value = tag;
 };
 
-const reviews = [
+const funds = [
   {
     id: 1,
-    type: 'student-paper',
-    title: '论文评审',
-    label: '论文评审',
-    description: '针对本科生、研究生论文的专业评审，提供详细的修改建议和评分标准。',
+    type: 'general',
+    title: '面上项目申请书',
+    label: '面上项目',
+    description: '国家自然科学基金面上项目申请书智能生成与修改，包括立项依据、研究内容、研究方案等。',
     icon: Document,
     iconColor: '#F56C6C',
     tagType: 'danger',
-    category: 'paper'
+    category: 'general'
   },
   {
     id: 2,
-    type: 'material',
-    title: '材料评审',
-    label: '材料评审',
-    description: '对各类材料文档进行专业评估，提供全面的评审意见和改进建议。',
-    icon: Files,
+    type: 'youth',
+    title: '青年基金申请书',
+    label: '青年基金',
+    description: '青年科学基金项目申请书智能辅助系统，帮助青年科研人员提升申请书质量。',
+    icon: Collection,
     iconColor: '#67C23A',
     tagType: 'success',
-    category: 'project'
+    category: 'youth'
   },
   {
     id: 3,
-    type: 'research-project',
-    title: '科研项目评审',
-    label: '项目评审',
-    description: '针对科研项目的可行性、创新性、研究方法等方面进行全面评估。',
-    icon: Histogram,
+    type: 'key',
+    title: '重点项目申请书',
+    label: '重点项目',
+    description: '国家自然科学基金重点项目申请书智能生成系统，突出创新性和科学价值。',
+    icon: Opportunity,
     iconColor: '#E6A23C',
     tagType: 'warning',
-    category: 'project'
+    category: 'key'
   },
   {
     id: 4,
-    type: 'fund-project',
-    title: '基金项目评审',
-    label: '基金评审',
-    description: '对基金申请项目进行专业评估，包括学术价值、研究方案等多维度分析。',
-    icon: Money,
+    type: 'group',
+    title: '创新研究群体',
+    label: '创新群体',
+    description: '创新研究群体项目申请书智能辅助系统，突出团队优势和协同创新。',
+    icon: Medal,
     iconColor: '#409EFF',
     tagType: 'primary',
-    category: 'fund'
-  },
-  {
-    id: 5,
-    type: 'patent',
-    title: '专利评审',
-    label: '专利评审',
-    description: '专利申请技术评估，包括创新性、实用性和产业化价值等方面的评审。',
-    icon: Medal,
-    iconColor: '#909399',
-    tagType: 'info',
-    category: 'patent'
+    category: 'group'
   }
 ];
 
-// 根据标签过滤评审
-const filteredReviews = computed(() => {
+// 根据标签过滤基金项目
+const filteredFunds = computed(() => {
   if (activeTag.value === 'all') {
-    return reviews;
+    return funds;
   }
-  return reviews.filter(review => review.category === activeTag.value);
+  return funds.filter(fund => fund.category === activeTag.value);
 });
 
-// 处理评审类型选择
-const handleReviewSelect = (type: string) => {
-  if (type === 'fund-project') {
-    window.open('/fund-project-review', '_blank');
+// 处理基金项目选择
+const handleFundSelect = (fund: any) => {
+  if (fund.type === 'general') {
+    window.open('/fund-general', '_blank');
+  } else if (fund.type === 'youth') {
+    window.open('/fund-youth', '_blank');
+  } else if (fund.type === 'key') {
+    window.open('/fund-key', '_blank');
+  } else if (fund.type === 'group') {
+    window.open('/fund-group', '_blank');
   } else {
-    ElMessage.info('该评审功能正在开发中，敬请期待！');
+    ElMessage.info('该功能正在开发中，敬请期待！');
   }
 };
 </script>
 
 <style scoped>
-.review-writing {
+.fund-writing {
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
@@ -249,7 +243,7 @@ const handleReviewSelect = (type: string) => {
   box-shadow: 0 4px 16px rgba(64,158,255,0.18);
 }
 
-.review-cards {
+.fund-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
@@ -259,7 +253,7 @@ const handleReviewSelect = (type: string) => {
   margin: 0 auto;
 }
 
-.review-card {
+.fund-card {
   cursor: pointer;
   transition: all 0.3s;
   height: 100%;
@@ -275,7 +269,7 @@ const handleReviewSelect = (type: string) => {
   overflow: hidden;
 }
 
-.review-card::after {
+.fund-card::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -287,13 +281,13 @@ const handleReviewSelect = (type: string) => {
   transition: transform 0.3s;
 }
 
-.review-card:hover {
+.fund-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   border-color: #eaeaea;
 }
 
-.review-card:hover::after {
+.fund-card:hover::after {
   transform: translateY(0);
 }
 
@@ -318,7 +312,7 @@ const handleReviewSelect = (type: string) => {
   flex: 1;
 }
 
-.review-title {
+.fund-title {
   margin: 0 0 8px 0;
   font-size: 18px;
   font-weight: 600;
@@ -339,7 +333,7 @@ const handleReviewSelect = (type: string) => {
   margin-bottom: 15px;
 }
 
-.review-description {
+.fund-description {
   margin: 0;
   color: #606266;
   font-size: 15px;
@@ -356,7 +350,7 @@ const handleReviewSelect = (type: string) => {
   transition: all 0.3s;
 }
 
-.review-card:hover .card-footer {
+.fund-card:hover .card-footer {
   opacity: 1;
   transform: translateX(0);
 }
