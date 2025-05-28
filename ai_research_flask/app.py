@@ -27,7 +27,8 @@ DIFY_API_KEY_MASTER_THESIS = "app-kSen0waSQPEPOnA2UzLMx6Rq"  # 硕士论文全�
 DIFY_API_KEY_MASTER_THESIS_PROPOSAL = "app-E1DJgX17BuUgg05Ir3vUjzRS"  # 硕士论文开题报告
 DIFY_API_KEY_SCI_PAPER = "app-mO9dbv8X9aURZsfm6JKJjiqy" # nature论文
 DIFY_API_KEY_REVIEW = "app-wx9y0mYWgTkWKe2XYJbkPJHk" # 综述写作
-DIFY_API_KEY_PROJECTREVIEW = "app-RpWORxhGfQgKNvc4ih6h3AOK" # 项目申请书
+DIFY_API_KEY_PROJECTREVIEW = "app-RpWORxhGfQgKNvc4ih6h3AOK" # 项目审查
+DIFY_API_KEY_FUNDWRITING = "app-YfE5tb12K5R655nonYiA2Qbu"  # 基金申请书
 DIFY_UPLOAD_URL = "http://127.0.0.1/v1/files/upload"  # Dify文件上传API地址
 
 
@@ -35,159 +36,6 @@ DIFY_UPLOAD_URL = "http://127.0.0.1/v1/files/upload"  # Dify文件上传API地�
 @app.route('/test', methods=['GET'])
 def home():
     return 'test'
-
-@app.route('/shuibao', methods=['GET', 'POST'])
-def shuibao():
-    global current_doc, current_filename
-    
-    raw_text = request.get_data(as_text=True)
-    print("\n=== 开始处理请求 ===")
-    print("收到文本内容：")
-    print(raw_text)
-    
-    try:
-        # 尝试解析JSON数据
-        try:
-            data = json.loads(raw_text)
-            content = data.get('content', '')
-            is_final = data.get('is_final', False)
-            print(f"\n解析JSON成功:")
-            print(f"- is_final: {is_final}")
-            print(f"- content长度: {len(content)}")
-        except json.JSONDecodeError as e:
-            print(f"\nJSON解析错误: {str(e)}")
-            content = raw_text
-            is_final = False
-            
-        if not content:
-            print("错误：内容为空")
-            return jsonify({
-                'message': 'error',
-                'status': '内容为空'
-            }), 400
-        
-        # 如果是第一段，创建新文档
-        if current_doc is None:
-            print("\n创建新文档")
-            current_doc = Document()
-            # 设置默认字体
-            style = current_doc.styles['Normal']
-            font = style.font
-            font.name = '宋体'
-            font.size = Pt(10.5)
-            # 生成文件名
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            current_filename = f'水土保持方案_{timestamp}.docx'
-            print(f"新文档文件名: {current_filename}")
-        else:
-            print(f"\n继续使用现有文档: {current_filename}")
-        
-        # 处理内容并添加到文档
-        print("\n开始处理内容")
-        lines = content.split('\n')
-        print(f"处理行数: {len(lines)}")
-        
-        for line in lines:
-            if line.startswith('###'):
-                current_doc.add_heading(line.replace('###', '').strip(), level=3)
-            elif line.startswith('##'):
-                current_doc.add_heading(line.replace('##', '').strip(), level=2)
-            elif line.startswith('#'):
-                current_doc.add_heading(line.replace('#', '').strip(), level=1)
-            elif line.startswith('|'):
-                if '|' in line:
-                    table_data = [cell.strip() for cell in line.split('|') if cell.strip()]
-                    if len(table_data) > 0:
-                        table = current_doc.add_table(rows=1, cols=len(table_data))
-                        table.style = 'Table Grid'
-                        for i, cell in enumerate(table_data):
-                            table.cell(0, i).text = cell
-            elif line.strip():
-                current_doc.add_paragraph(line.strip())
-        
-        # 保存到本地
-        save_dir = r'D:\水保项目\shuibao_flask'
-        if not os.path.exists(save_dir):
-            print(f"创建输出目录: {save_dir}")
-            os.makedirs(save_dir)
-        
-        save_path = os.path.join(save_dir, current_filename)
-        print(f"\n准备保存文档到: {save_path}")
-        try:
-            current_doc.save(save_path)
-            print(f"文档已保存到: {save_path}")
-            if os.path.exists(save_path):
-                file_size = os.path.getsize(save_path)
-                print(f"文档保存成功，文件大小: {file_size} 字节")
-            else:
-                print("错误：文档保存失败，文件不存在")
-        except Exception as e:
-            print(f"保存文档时出错: {str(e)}")
-            return jsonify({
-                'message': 'error',
-                'status': f'保存文档失败: {str(e)}'
-            }), 500
-        
-        # 如果是最后一段，返回文件并重置文档
-        if is_final:
-            print("\n=== 文档生成完成 ===")
-            print(f"文档路径: {save_path}")
-            
-            # 确保文档已保存
-            if os.path.exists(save_path):
-                file_size = os.path.getsize(save_path)
-                print(f"文档已成功保存，文件大小: {file_size} 字节")
-                
-                # 尝试打开文档
-                try:
-                    abs_path = os.path.abspath(save_path)
-                    print(f"正在打开文档: {abs_path}")
-                    
-                    # 使用Windows的start命令打开文档
-                    subprocess.Popen(['start', '', abs_path], shell=True)
-                    print("已发送打开文档命令")
-                except Exception as e:
-                    print(f"打开文档时出错: {str(e)}")
-                    print("请手动打开文档:", abs_path)
-            else:
-                print("错误：文档未成功保存")
-                print("当前工作目录:", os.getcwd())
-                print("尝试创建的文件路径:", save_path)
-                return jsonify({
-                    'message': 'error',
-                    'status': '文档保存失败'
-                }), 500
-            
-            # 准备返回响应
-            response = send_file(
-                save_path,
-                mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                as_attachment=True,
-                download_name=current_filename
-            )
-            
-            # 重置文档状态
-            current_doc = None
-            current_filename = None
-            print("文档状态已重置")
-            
-            return response
-        
-        print("\n=== 请求处理完成 ===")
-        return jsonify({
-            'message': 'success',
-            'status': '内容已添加到文档'
-        })
-        
-    except Exception as e:
-        print(f"\n发生错误: {str(e)}")
-        import traceback
-        print("错误详情:")
-        print(traceback.format_exc())
-        return jsonify({
-            'message': 'error',
-            'status': str(e)
-        }), 500
 
 @app.route('/dify_api', methods=['POST'])
 def dify_api():
@@ -198,15 +46,29 @@ def dify_api():
         else:
             data = request.form.to_dict()
             
-        if not data or 'title' not in data:
+        if not data:
             return jsonify({
                 'message': 'error',
-                'status': '请求数据格式错误，必须包含title字段'
+                'status': '请求数据不能为空'
             }), 400
-            
+
         # 获取主题参数
         theme = data.get('theme', 'master_thesis')  # 默认为硕士论文全文
-        
+
+        # 根据主题验证必要字段
+        if theme == 'fund_writing':
+            if 'paragraph' not in data or 'content' not in data:
+                return jsonify({
+                    'message': 'error',
+                    'status': '基金写作需要包含 paragraph 和 content 字段'
+                }), 400
+        else:
+            if 'title' not in data:
+                return jsonify({
+                    'message': 'error',
+                    'status': '请求数据格式错误，必须包含title字段'
+                }), 400
+            
         # 根据主题选择不同的API key
         api_key = ""
         if theme == 'master_thesis':
@@ -224,6 +86,9 @@ def dify_api():
         elif theme == 'project_review':
             api_key = DIFY_API_KEY_PROJECTREVIEW
             print(f"使用项目申请书API key")
+        elif theme == 'fund_writing':
+            api_key = DIFY_API_KEY_FUNDWRITING
+            print(f"使用基金申请书API key")
         else:
             return jsonify({
                 'message': 'error',
@@ -232,12 +97,22 @@ def dify_api():
 
         # 构建符合Dify API规范的请求体
         dify_payload = {
-            'inputs': {
-                'title': data.get('title', '').strip('"')  # 移除可能的引号
-            },
+            'inputs': {},
             'response_mode': 'streaming',  # 改为流式模式
             'user': 'user_' + datetime.now().strftime('%Y%m%d%H%M%S')
         }
+
+        # 如果不是 fund_writing 主题，添加 title 字段
+        if theme != 'fund_writing':
+            dify_payload['inputs']['title'] = data.get('title', '').strip('"')  # 移除可能的引号
+
+        # 如果是 fund_writing 主题，添加 paragraph 和 content 字段
+        if theme == 'fund_writing':
+            dify_payload['inputs']['paragraph'] = data.get('paragraph', '')
+            dify_payload['inputs']['content'] = data.get('content', '')
+            print(f"基金申请书参数：")
+            print(f"paragraph: {data.get('paragraph', '')}")
+            print(f"content: {data.get('content', '')}")
 
         # 如果是 sci_paper 主题，添加 type 字段
         if theme == 'sci_paper':

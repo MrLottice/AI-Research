@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HomePage from '../components/HomePage.vue';
 import WritingTools from '../views/WritingTools.vue';
-import MasterThesisProposalOutline from '../views/MasterThesisProposalOutline.vue';
+import MasterThesisProposalOutline from '../pages/MasterThesisProposalOutline.vue';
 import JournalSubmission from '../views/JournalSubmission.vue';
-import NatureGeneticsSubmission from '../views/NatureGeneticsSubmission.vue';
-import NatureCommunicationsSubmission from '../views/NatureCommunicationsSubmission.vue';
+import NatureGeneticsSubmission from '../pages/NatureGeneticsSubmission.vue';
+import NatureCommunicationsSubmission from '../pages/NatureCommunicationsSubmission.vue';
 import ReviewWriting from '../views/ReviewWriting.vue';
-import MolecularBiology from '../views/MolecularBiology.vue';
+import MolecularBiology from '../pages/MolecularBiology.vue';
 import ProjectReview from '../views/ProjectReview.vue';
 import FundProjectReview from '../views/FundProjectReview.vue';
-import GeneralFundWriting from '../views/GeneralFundWriting.vue';
+import GeneralFundWriting from '../pages/GeneralFundWriting.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
