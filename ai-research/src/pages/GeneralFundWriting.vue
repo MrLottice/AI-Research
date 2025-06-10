@@ -134,7 +134,7 @@
         <!-- 空结果状态 -->
         <div v-else-if="!generatedResults[activeTab]" class="empty-result">
           <div class="light-bulb-icon">
-            <img src="https://img.icons8.com/ios/100/409eff/idea.png" alt="灵感" />
+            <el-icon :size="60" color="#409eff"><Lightning /></el-icon>
           </div>
           <p class="empty-text">暂无内容，请点击"开始生成"按钮</p>
         </div>
@@ -149,7 +149,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, nextTick, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import { 
   Money,
@@ -157,7 +157,8 @@ import {
   Document,
   List,
   DocumentCopy,
-  Download
+  Download,
+  Lightning
 } from '@element-plus/icons-vue';
 
 interface ProjectInfo {
@@ -272,8 +273,8 @@ const generateContent = async () => {
     return;
   }
 
-  const maxRetries = 3; // 最大重试次数
-  const timeout = 10000; // 10秒超时
+  const maxRetries = 3;
+  const timeout = 10000;
   let currentRetry = 0;
 
   const makeRequest = async () => {
@@ -282,18 +283,19 @@ const generateContent = async () => {
 
     try {
       isLoading.value = true;
-      generatedResults.value[activeTab.value] = ''; // 清空之前的结果
+      // 清空当前标签页的生成结果
+      generatedResults.value[activeTab.value] = '';
       
       // 构造请求数据
       const requestData = {
-        theme: 'fund_writing',  // 固定值
-        content: projectInfo.value[activeTab.value],  // 用户输入的内容
-        paragraph: tabTitles[activeTab.value]  // 当前步骤的标题
+        theme: 'fund_writing',
+        content: projectInfo.value[activeTab.value],
+        paragraph: tabTitles[activeTab.value]
       };
       
       console.log('发送请求数据：', requestData);
       
-      const response = await fetch('http://127.0.0.1:5000/dify_api', {
+      const response = await fetch('http://10.137.0.20:5000/dify_api', {
         method: 'POST',
         headers: {
           'Accept': 'text/event-stream',
@@ -375,7 +377,7 @@ const generateContent = async () => {
     } catch (error) {
       clearTimeout(timeoutId);
       
-      if (error.name === 'AbortError') {
+      if ((error as { name?: string }).name === 'AbortError') {
         console.log('请求超时，准备重试');
         throw new Error('请求超时');
       }
@@ -528,6 +530,11 @@ const downloadContent = () => {
     isDownloading.value = false;
   }
 };
+
+// 监听标签页切换
+watch(activeTab, () => {
+  isLoading.value = false;
+});
 </script>
 
 <style scoped>

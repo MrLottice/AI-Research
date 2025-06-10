@@ -1,0 +1,42 @@
+硕博论文
+标题：低蛋白日粮添加赖氨酸对育肥猪生长性能、血清生化指标及氮排放的影响
+补充材料（可选）：
+本研究以60头初重约25kg的杜长大三元杂交育肥猪为试验对象，设立三个处理组：正常蛋白组（CP 18%）、
+低蛋白组（CP 16%）和低蛋白+赖氨酸组（CP 16% + 0.3%赖氨酸），试验期为60天。结果显示，低蛋白+赖氨酸组的日增重（ADG）和饲料转化率（F/G）
+显著优于低蛋白组（P<0.05），且血清中尿素氮浓度显著降低，同时氮排放量减少约18%。研究表明，在降低日粮蛋白水平的前提下补充赖氨酸，
+不仅能维持育肥猪良好的生产性能，还能减少环境氮污染，具有重要的应用价值。
+
+SCI论文
+标题：Pangenome analysis reveals structural variation associated with seed size and weight traits in peanut
+补充材料;
+Peanut (Arachis hypogaea L.) is an important oilseed and food legume crop, with seed size and 
+weight being critical traits for domestication and breeding. However, genomic rearrangements like structural variations
+ (SVs) underlying seed size and weight remain unclear. Here we present a comprehensive pangenome analysis utilizing
+ eight high-quality genomes (two diploid wild, two tetraploid wild and four tetraploid cultivated peanuts) and resequencing data 
+of 269 accessions with diverse seed sizes. We identified 22,222 core or soft-core, 22,232 distributed and 5,643 private gene families. 
+The frequency of SVs in subgenome A is higher than in subgenome B. We identified 1,335 domestication-related SVs and 190 SVs associated 
+with seed size or weight. Notably, a 275-bp deletion in gene AhARF2-2 results in loss of interaction with AhIAA13 and TOPLESS, reducing the 
+inhibitory effect on AhGRF5 and promoting seed expansion. This high-quality pangenome serves as a fundamental resource for the genetic enhancement
+ of peanuts and other legume crops.
+
+综述撰写
+标题：猪营养学研究进展：饲料配方优化、功能性添加剂与精准营养调控
+补充材料：近年来，随着养猪产业向集约化、高效化发展，猪营养学研究不断深化，并在饲料配方优化、
+功能性添加剂应用以及精准营养调控等方面取得了显著进展。本综述旨在系统梳理当前猪的基础营养需求，
+包括能量、蛋白质、氨基酸、维生素和矿物质等在不同生长阶段的需求差异；分析常用及新型饲料资源的营养价值与加工技术的影响；
+探讨植酸酶、益生菌、酸化剂、植物提取物等功能性饲料添加剂的研究进展及其在替抗、促生长中的作用机制；总结精准营养与智能饲喂技术的应用趋势，
+如个体营养供给、数据驱动的日粮优化和饲喂自动化设备的集成。同时，文章还关注营养与猪肠道健康、免疫调控之间的相互作用，以及绿色环保背景下氮
+磷排放控制对营养策略提出的新要求，最后展望猪营养研究未来的发展方向，包括营养基因组学的应用、低碳营养方案的构建等。通过对上述内容的系统整理，
+可为猪营养研究者及生产实践者提供有价值的参考。
+
+国自然基金
+立项依据：我国牧草育种长期依赖进口品种，导致适应性差、资源利用效率低，饲草供给受制于人，严重制约畜牧业高质量发展。
+仅四川2024年就耗资9.2亿元进口3.5万吨美洲狼尾草，但因适应性问题致使30%土地闲置，凸显了构建本土高产、抗逆牧草育种体系的紧迫性。
+当前我国牧草育种主要依赖传统表型选择，现代分子育种与人工智能等前沿技术应用不足，难以突破品种“卡脖子”问题。本项目以“非编码调控元件”为切入点，
+融合基因组选择、智能表型组学和AI算法，重点解析牧草中远端调控元件对关键农艺性状的调控机制，构建“基因组—表观组—表型”一体化精准育种体系。
+项目拟在西南特色牧草中系统开展三维染色质互作图谱、调控网络解析与分子功能验证，探索适应干旱、热害等胁迫环境的遗传调控机制，提升品种适应性与资源利用效率。
+依托高通量组学平台与深度学习模型，开展基因组变异识别、关键位点预测与编辑靶点筛选，推动牧草从经验育种向计算优选转变。成果将加速本土优质牧草品种的选育，
+降低对进口种子依赖，筑牢国家饲草安全和畜牧业发展基础，同时为植物非编码基因组研究与精准育种技术提供创新路径与示范效应。
+
+
+

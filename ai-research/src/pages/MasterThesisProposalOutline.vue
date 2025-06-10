@@ -88,28 +88,35 @@
           <span class="result-title">生成结果</span>
         </div>
 
-        <!-- 加载中状态 - 改进版 -->
-        <div v-if="isLoading" class="loading-result">
+        <!-- 加载中状态 - 流式输出版 -->
+        <div v-if="isLoading && !isStreaming" class="loading-result">
           <div class="loading-animation">
             <div class="loading-spinner"></div>
           </div>
-          <p class="loading-text">AI正在生成硕士开题报告提纲...</p>
-          <p class="loading-tips">这可能需要5分钟左右，请耐心等待</p>
+          <p class="loading-text">正在准备生成硕士开题报告提纲...</p>
+          <p class="loading-tips">这可能需要几秒钟，请耐心等待</p>
         </div>
 
         <!-- 空结果状态 -->
-        <div v-else-if="!outlineGenerated" class="empty-result">
+        <div v-else-if="!outlineGenerated && !isStreaming" class="empty-result">
           <div class="light-bulb-icon">
             <img src="https://img.icons8.com/ios/100/409eff/idea.png" alt="灵感" />
           </div>
           <p class="empty-text">暂无内容，尚未成功生成！</p>
         </div>
 
-        <!-- 生成结果状态 -->
+        <!-- 生成结果状态 - 包含流式输出 -->
         <div v-else class="outline-result">
-          <!-- 这里将展示生成的提纲结果 -->
           <div class="outline-content" v-html="generatedOutline"></div>
-          <div class="result-actions">
+          <div v-if="isStreaming" class="streaming-indicator">
+            <div class="typing-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <p>AI正在思考并生成内容...</p>
+          </div>
+          <div v-if="!isStreaming" class="result-actions">
             <el-button size="small" type="primary" plain @click="copyContent" :loading="isCopying">
               <el-icon><Copy /></el-icon>
               <span>复制</span>
@@ -128,7 +135,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { ElMessage } from 'element-plus';
-import axios from 'axios';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 export default defineComponent({
@@ -144,51 +150,9 @@ export default defineComponent({
     const isLoading = ref(false);
     const isCopying = ref(false);
     const isDownloading = ref(false);
-    // 用于取消请求的控制器（保留但不再直接暴露给用户）
+    const streamingContent = ref('');
+    const isStreaming = ref(false);
     let abortController: AbortController | null = null;
-
-    // 辅助函数：解析后端返回的JSON响应并提取text字段
-    const extractDifyResponseText = (responseData: any): string => {
-      try {
-        // 新的后端返回格式：直接提取text字段，已经处理过了
-        if (responseData && responseData.message === 'success' && responseData.text) {
-          console.log('直接使用后端处理好的text内容');
-          return responseData.text;
-        }
-        
-        // 如果上面的方法失败，尝试备选方法
-        // 尝试直接访问data.outputs.text结构（如果存在）
-        if (responseData.data && responseData.data.outputs && responseData.data.outputs.text) {
-          console.log('直接从响应中提取data.outputs.text成功');
-          return responseData.data.outputs.text;
-        }
-        
-        // 检查其他可能的结构
-        if (responseData.outputs && responseData.outputs.text) {
-          return responseData.outputs.text;
-        }
-        
-        if (responseData.content) {
-          return responseData.content;
-        }
-        
-        if (responseData.result) {
-          return responseData.result;
-        }
-        
-        // 如果是字符串，直接返回
-        if (typeof responseData === 'string') {
-          return responseData;
-        }
-        
-        // 没有找到有效的文本内容，返回序列化的JSON用于调试
-        console.error('无法找到有效的文本内容，返回原始JSON');
-        return JSON.stringify(responseData);
-      } catch (e) {
-        console.error('提取响应文本时出错:', e);
-        return JSON.stringify(responseData);
-      }
-    };
 
     // 辅助函数：将Markdown文本转换为HTML
     const markdownToHtml = (markdownText: string): string => {
@@ -337,7 +301,7 @@ export default defineComponent({
       supplementaryInfo.value = '';
     };
 
-    // 生成提纲 - 简化版
+    // 修改生成提纲函数以支持流式输出
     const generateOutline = async () => {
       if (!thesisTitle.value.trim()) {
         ElMessage.error('请先输入课题信息');
@@ -348,72 +312,99 @@ export default defineComponent({
         // 设置加载状态
         isLoading.value = true;
         outlineGenerated.value = false;
-        
-        // 创建一个新的AbortController（仍然创建以便超时时可以取消）
-        abortController = new AbortController();
-        
+        generatedOutline.value = '';
+
         // 创建FormData对象
         const formData = new FormData();
         formData.append('title', thesisTitle.value);
         formData.append('examples', supplementaryInfo.value);
         formData.append('theme', 'master_thesis_proposal');
         
+        // 创建一个新的AbortController
+        abortController = new AbortController();
+
         // 发送请求到Flask后端
-        const response = await axios.post('http://127.0.0.1:5000/dify_api', formData, {
+        const response = await fetch('http://10.137.0.20:5000/dify_api', {
+          method: 'POST',
+          body: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Accept': 'text/event-stream',
           },
-          timeout: 600000, // 5分钟超时
           signal: abortController.signal
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // 获取响应的ReadableStream
+        const reader = response.body?.getReader();
+        if (!reader) {
+          throw new Error('无法获取响应流');
+        }
+
+        // 读取流数据
+        let isDone = false;
+        let buffer = '';
+        let hasReceivedFirstChunk = false;
         
-        console.log('收到响应:', response.data);
-        
-        // 处理响应
-        if (response.data) {
-          // 提取文本内容
-          const content = extractDifyResponseText(response.data);
+        while (!isDone) {
+          const { done, value } = await reader.read();
+          isDone = done;
           
-          if (content) {
-            // 将Markdown内容转换为HTML格式
-            const htmlContent = markdownToHtml(content);
+          if (value) {
+            // 将Uint8Array转换为文本并添加到缓冲区
+            buffer += new TextDecoder().decode(value);
             
-            // 先设置结果内容和状态
-            generatedOutline.value = htmlContent;
-            outlineGenerated.value = true;
+            // 处理缓冲区中的所有完整消息
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || ''; // 保留最后一个不完整的行
             
-            // 然后关闭加载状态
-            isLoading.value = false;
-            
-            ElMessage.success('提纲生成成功！');
-          } else {
-            throw new Error('响应内容为空');
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  // 提取JSON部分（去掉'data: '前缀）
+                  const jsonStr = line.substring(6);
+                  const jsonData = JSON.parse(jsonStr);
+                  
+                  if (jsonData.type === 'text' && jsonData.content) {
+                    if (!hasReceivedFirstChunk) {
+                      // 收到第一个数据块时，更新状态
+                      isLoading.value = false;
+                      outlineGenerated.value = true;
+                      hasReceivedFirstChunk = true;
+                    }
+                    // 将新的内容转换为HTML并更新显示
+                    generatedOutline.value = markdownToHtml(jsonData.full_text);
+                  } else if (jsonData.type === 'done') {
+                    // 处理完成事件
+                    isLoading.value = false;
+                    outlineGenerated.value = true;
+                    generatedOutline.value = markdownToHtml(jsonData.full_text);
+                    ElMessage.success('提纲生成完成！');
+                  } else if (jsonData.type === 'error') {
+                    // 处理错误事件
+                    throw new Error(jsonData.message || '生成过程中发生错误');
+                  }
+                } catch (e) {
+                  console.warn('解析消息失败:', e, line);
+                }
+              }
+            }
           }
-        } else {
-          throw new Error('无效的响应数据');
         }
       } catch (error: any) {
         console.error('API请求错误:', error);
         
-        // 重置状态
-        isLoading.value = false;
-        outlineGenerated.value = false;
-        
-        // 根据错误类型显示不同消息
-        if (error.code === 'ECONNABORTED') {
-          ElMessage.error('请求超时，服务器响应时间过长');
-        } else if (error.name === 'AbortError' || error.message === 'canceled') {
+        if (error.name === 'AbortError' || error.message === 'canceled') {
           ElMessage.info('请求已取消');
-        } else if (error.response) {
-          // 服务器返回了错误状态码
-          const status = error.response.status || '未知';
-          const message = error.response.data?.message || '未知错误';
-          ElMessage.error(`服务器错误 (${status}): ${message}`);
         } else {
-          ElMessage.error('网络请求失败，请检查后端服务是否启动');
+          ElMessage.error('生成失败，请稍后重试');
         }
+        
+        outlineGenerated.value = false;
       } finally {
-        // 重置控制器
+        isLoading.value = false;
         abortController = null;
       }
     };
@@ -489,6 +480,8 @@ export default defineComponent({
       isLoading,
       isCopying,
       isDownloading,
+      isStreaming,
+      streamingContent,
       clearInputs,
       generateOutline,
       copyContent,
@@ -891,5 +884,70 @@ export default defineComponent({
 .outline-content em {
   font-style: italic;
   color: #606266;
+}
+
+/* 添加流式输出相关样式 */
+.streaming-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ecf5ff;
+  border-radius: 4px;
+}
+
+.typing-dots {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.typing-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 3px;
+  background-color: #409EFF;
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  30% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.streaming-indicator p {
+  margin: 0;
+  color: #409EFF;
+  font-size: 14px;
+}
+
+/* 优化流式输出内容的过渡效果 */
+.outline-content {
+  transition: all 0.3s ease;
+}
+
+.outline-result {
+  position: relative;
 }
 </style> 

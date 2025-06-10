@@ -167,7 +167,7 @@ const generateSubmission = async () => {
     formData.append('theme', 'review');
 
     // 发送请求到后端接口
-    const response = await fetch('http://127.0.0.1:5000/dify_api', {
+    const response = await fetch('http://10.137.0.20:5000/dify_api', {
       method: 'POST',
       body: formData
     });

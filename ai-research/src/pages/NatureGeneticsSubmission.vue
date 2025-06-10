@@ -175,7 +175,7 @@ export default defineComponent({
         formData.append('type', 'nature_genetics');
         
         // 使用fetch API发送请求并处理流式响应
-        const response = await fetch('http://127.0.0.1:5000/dify_api', {
+        const response = await fetch('http://10.137.0.20:5000/dify_api', {
           method: 'POST',
           body: formData
         });
