@@ -1,0 +1,217 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 项目评审
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.9@d0bed72582f8945dba4bf0fb23e03a449e7319f7cb0056ce02bfc76ca3f08215
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1747831781330-source-1747831809131-target
+      source: '1747831781330'
+      sourceHandle: source
+      target: '1747831809131'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1747831809131-source-1747831816658-target
+      source: '1747831809131'
+      sourceHandle: source
+      target: '1747831816658'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1747831816658-source-1747894369876-target
+      source: '1747831816658'
+      sourceHandle: source
+      target: '1747894369876'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: files
+          max_length: 10
+          options: []
+          required: true
+          type: file-list
+          variable: files
+      height: 88
+      id: '1747831781330'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        is_array_file: true
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1747831781330'
+        - files
+      height: 90
+      id: '1747831809131'
+      position:
+        x: 383
+        y: 282
+      positionAbsolute:
+        x: 383
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 74aee09f-af9c-47b8-ad62-239065c5a779
+          role: system
+          text: "##角色：\n你是一位具有国家自然科学基金评审经验的资深专家，熟悉科研项目的评审流程，了解基金申请书的撰写规范与评审标准。\n##任务：\n\
+            请你根据我上传的基金项目申请文档{{#1747831809131.text#}}，站在专家评审的角度，从科学性、创新性、可行性、研究基础、团队能力、经费预算合理性等方面，对该项目进行全面评审，撰写一份模拟专家评审意见。\n\
+            ##写作要求：\n1. **整体结构**：\n   - 一段概括性评价（如：“该项目围绕……开展，选题具有一定的创新性……”）\n   -\
+            \ 分项评议（可分为：科学问题/研究内容、技术路线、创新性、研究基础、预期成果、团队结构与分工、经费预算等）\n   - 总体评价与建议（如是否建议资助、建议修改部分）\n\
+            \n2. **语言风格**：\n   - 使用正式、严谨、客观的学术语言\n   - 表述需专业、理性，既指出优点，也指出存在的问题或可改进之处\n\
+            \   - 评审语气可适度参考真实基金专家评审意见格式\n\n##用途说明：\n该评审意见将用于项目申报前的模拟评审与修改参考，申请人希望了解项目申请书的优劣势和改进建议，以提高实际获批可能性。\n\
+            \n"
+        selected: true
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1747831816658'
+      position:
+        x: 682
+        y: 302
+      positionAbsolute:
+        x: 682
+        y: 302
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1747831816658'
+          - text
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 88
+      id: '1747894369876'
+      position:
+        x: 1054
+        y: 302
+      positionAbsolute:
+        x: 1054
+        y: 302
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -50
+      y: 144
+      zoom: 1

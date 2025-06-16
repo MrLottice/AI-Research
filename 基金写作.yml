@@ -1,0 +1,1414 @@
+app:
+  description: 分布基金写作
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 基金写作
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.9@d0bed72582f8945dba4bf0fb23e03a449e7319f7cb0056ce02bfc76ca3f08215
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1748161761270-source-1748161890340-target
+      source: '1748161761270'
+      sourceHandle: source
+      target: '1748161890340'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-true-1748162486140-target
+      source: '1748161890340'
+      sourceHandle: 'true'
+      target: '1748162486140'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748162486140-source-1748162478400-target
+      source: '1748162486140'
+      sourceHandle: source
+      target: '1748162478400'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-6fec565d-ca6c-4e70-9a8b-aa7df4bc3220-1748163207390-target
+      source: '1748161890340'
+      sourceHandle: 6fec565d-ca6c-4e70-9a8b-aa7df4bc3220
+      target: '1748163207390'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748163207390-source-1748163275188-target
+      source: '1748163207390'
+      sourceHandle: source
+      target: '1748163275188'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-27a3f194-4482-4c86-a7f9-8c26c68bb3b7-1748163307993-target
+      source: '1748161890340'
+      sourceHandle: 27a3f194-4482-4c86-a7f9-8c26c68bb3b7
+      target: '1748163307993'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748163307993-source-1748163384300-target
+      source: '1748163307993'
+      sourceHandle: source
+      target: '1748163384300'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-ed9ccea5-818e-4433-a0be-4f7ed19823f2-1748163407961-target
+      source: '1748161890340'
+      sourceHandle: ed9ccea5-818e-4433-a0be-4f7ed19823f2
+      target: '1748163407961'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748163407961-source-1748163476561-target
+      source: '1748163407961'
+      sourceHandle: source
+      target: '1748163476561'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-fc8c8fe7-8d6d-4760-ab13-15d984c7877b-1748163507409-target
+      source: '1748161890340'
+      sourceHandle: fc8c8fe7-8d6d-4760-ab13-15d984c7877b
+      target: '1748163507409'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748163507409-source-1748164001251-target
+      source: '1748163507409'
+      sourceHandle: source
+      target: '1748164001251'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-de658687-0c65-474d-a574-25ddd771cba1-1748164027206-target
+      source: '1748161890340'
+      sourceHandle: de658687-0c65-474d-a574-25ddd771cba1
+      target: '1748164027206'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748164027206-source-1748164096214-target
+      source: '1748164027206'
+      sourceHandle: source
+      target: '1748164096214'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-455b4fec-af8e-4429-9726-4fe096bdc541-1748164107989-target
+      source: '1748161890340'
+      sourceHandle: 455b4fec-af8e-4429-9726-4fe096bdc541
+      target: '1748164107989'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-cf97d461-2c18-40a4-8bef-51615fe9be46-1748164384785-target
+      source: '1748161890340'
+      sourceHandle: cf97d461-2c18-40a4-8bef-51615fe9be46
+      target: '1748164384785'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748164107989-source-1748164396045-target
+      source: '1748164107989'
+      sourceHandle: source
+      target: '1748164396045'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748164384785-source-1748164456206-target
+      source: '1748164384785'
+      sourceHandle: source
+      target: '1748164456206'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-286cb684-dccc-4d53-b711-bd2b6d5b804f-1748164471452-target
+      source: '1748161890340'
+      sourceHandle: 286cb684-dccc-4d53-b711-bd2b6d5b804f
+      target: '1748164471452'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748164471452-source-1748164533197-target
+      source: '1748164471452'
+      sourceHandle: source
+      target: '1748164533197'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748161890340-5903306b-9d49-4a53-96f7-d0036e126af6-1748164558487-target
+      source: '1748161890340'
+      sourceHandle: 5903306b-9d49-4a53-96f7-d0036e126af6
+      target: '1748164558487'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748164558487-source-1748164590982-target
+      source: '1748164558487'
+      sourceHandle: source
+      target: '1748164590982'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: end
+      id: 1748161890340-false-1748164597721-target
+      source: '1748161890340'
+      sourceHandle: 'false'
+      target: '1748164597721'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: content
+          max_length: 5000
+          options: []
+          required: true
+          type: paragraph
+          variable: content
+        - label: paragraph
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: paragraph
+      height: 114
+      id: '1748161761270'
+      position:
+        x: 79
+        y: 282
+      positionAbsolute:
+        x: 79
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: d00812a4-ab1e-4353-8900-2a892428ee67
+            value: 立项依据
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: 'true'
+          logical_operator: and
+        - case_id: 6fec565d-ca6c-4e70-9a8b-aa7df4bc3220
+          conditions:
+          - comparison_operator: is
+            id: bdca029a-cfee-4b61-959a-5816ecd5f724
+            value: 研究内容
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: 6fec565d-ca6c-4e70-9a8b-aa7df4bc3220
+          logical_operator: and
+        - case_id: 27a3f194-4482-4c86-a7f9-8c26c68bb3b7
+          conditions:
+          - comparison_operator: is
+            id: e0840dfd-92d2-4c41-a56f-8f3e3365694f
+            value: 研究方案
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: 27a3f194-4482-4c86-a7f9-8c26c68bb3b7
+          logical_operator: and
+        - case_id: ed9ccea5-818e-4433-a0be-4f7ed19823f2
+          conditions:
+          - comparison_operator: is
+            id: 512f71db-26b3-43b2-9738-37a86de2446f
+            value: 特色创新
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: ed9ccea5-818e-4433-a0be-4f7ed19823f2
+          logical_operator: and
+        - case_id: fc8c8fe7-8d6d-4760-ab13-15d984c7877b
+          conditions:
+          - comparison_operator: is
+            id: fefc225c-82af-4505-b42e-15708f15720f
+            value: 年度计划
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: fc8c8fe7-8d6d-4760-ab13-15d984c7877b
+          logical_operator: and
+        - case_id: de658687-0c65-474d-a574-25ddd771cba1
+          conditions:
+          - comparison_operator: is
+            id: 86c5743c-a89e-41d9-b7f3-71ca23825347
+            value: 研究基础
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: de658687-0c65-474d-a574-25ddd771cba1
+          logical_operator: and
+        - case_id: 455b4fec-af8e-4429-9726-4fe096bdc541
+          conditions:
+          - comparison_operator: is
+            id: c931acb0-b031-49d4-b160-f456381b0562
+            value: 工作条件
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: 455b4fec-af8e-4429-9726-4fe096bdc541
+          logical_operator: and
+        - case_id: cf97d461-2c18-40a4-8bef-51615fe9be46
+          conditions:
+          - comparison_operator: is
+            id: ad4cb14a-d05e-4b03-b02c-09e344bd71ac
+            value: 相关项目
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: cf97d461-2c18-40a4-8bef-51615fe9be46
+          logical_operator: and
+        - case_id: 286cb684-dccc-4d53-b711-bd2b6d5b804f
+          conditions:
+          - comparison_operator: is
+            id: 1ae34b39-2c9d-4869-a9ef-db5995d271cd
+            value: 基金完成情况
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: 286cb684-dccc-4d53-b711-bd2b6d5b804f
+          logical_operator: and
+        - case_id: 5903306b-9d49-4a53-96f7-d0036e126af6
+          conditions:
+          - comparison_operator: is
+            id: 0369f5ee-ede9-4121-a1a6-517be27e885e
+            value: 其他说明
+            varType: string
+            variable_selector:
+            - '1748161761270'
+            - paragraph
+          id: 5903306b-9d49-4a53-96f7-d0036e126af6
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 556
+      id: '1748161890340'
+      position:
+        x: 382
+        y: 282
+      positionAbsolute:
+        x: 382
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748162486140'
+          - text
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 88
+      id: '1748162478400'
+      position:
+        x: 1055.9844513317203
+        y: -28.244134273773
+      positionAbsolute:
+        x: 1055.9844513317203
+        y: -28.244134273773
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 18a536ad-bace-408c-85f4-06eea88ea89f
+          role: system
+          text: '##角色
+
+            你是一位精通国家自然科学基金项目申报材料撰写的科研专家，擅长结合国家战略需求、科技发展趋势和领域研究动态，撰写具有科学性、前沿性和应用性的立项依据部分内容。你熟悉基金委评审专家关注的关键点，能够逻辑严谨、语言规范地输出符合格式要求的文本。
+
+            ##任务
+
+            请根据提供的项目背景信息，撰写国家自然科学基金项目申请书中的“立项依据”部分内容，分为以下三个小节：
+
+            1.1 研究背景和意义
+
+            简要介绍研究领域的发展背景与趋势；
+
+            结合国家战略、学科发展或重大社会需求说明本研究的重要性与科学意义；
+
+            突出项目的创新点与研究的紧迫性。
+
+            1.2 国内外研究现状
+
+            系统归纳当前国内外在本研究方向上的主要成果与代表性工作；
+
+            指出当前研究的不足或空白；
+
+            强调本项目的研究差异性与切入点。
+
+            1.3 拟解决的关键科技问题及应用前景
+
+            明确本项目将聚焦的核心科学问题或关键技术瓶颈；
+
+            阐述该问题的科学价值或其对重大工程/行业的支撑作用；
+
+            分析本研究成果的预期应用前景、可推广性或对经济社会的贡献。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}},这是用户提供的部分资料，作为基金撰写过程中的参考，写作中必须用到用户提供的资料。
+
+            ##输出格式
+
+            使用中文，语言正式、规范、学术性强；
+
+            分三节输出，分别以“1.1 研究背景和意义”“1.2 国内外研究现状”“1.3 拟解决的关键科技问题及应用前景”为小标题；
+
+            如果小标题中还需细分，使用"1.1.1 xxx" "1.1.2xxx"等三级标题作为细分的标题；不采用四级标题，若有需要使用1、2、3...分条描述
+
+            每节内容字数在2000-2500字左右，总字数约7000–8000字；
+
+            不要输出任何额外说明或解释，仅输出正文内容。
+
+
+            '
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748162486140'
+      position:
+        x: 698.573147649037
+        y: -28.244134273773
+      positionAbsolute:
+        x: 698.573147649037
+        y: -28.244134273773
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 8d75ff47-f24f-460d-b294-fbaebaf6d645
+          role: system
+          text: '##角色
+
+            你是一位精通国家自然科学基金项目申报材料撰写的科研专家，擅长凝练科研目标与研究内容，善于从前沿科学问题中提炼关键科学问题，能围绕国家重大需求与科技发展趋势，科学严谨地撰写“研究内容与目标”部分。
+
+            ##任务
+
+            请根据提供的项目背景信息，撰写国家自然科学基金项目申请书中的“研究内容与目标”部分，分为以下三个小节：
+
+            2.1 研究内容
+
+            详细阐述项目拟开展的主要研究方向、技术路线、实验方法或理论建模方法；
+
+            明确每一项研究内容的逻辑结构、技术手段与预期成果；
+
+            研究内容应具有内在联系，系统性强，突出项目创新点与科学深度。
+
+            2.2 研究目标
+
+            明确项目的总目标与分阶段目标；
+
+            目标需可量化、具挑战性，并可在项目周期内实现；
+
+            目标描述要与研究内容紧密对应，体现预期突破与技术积累。
+
+            2.3 拟解决的关键科学问题
+
+            凝练项目所围绕的核心科学问题或基础性技术难点；
+
+            问题需具前沿性、基础性或交叉性；
+
+            应说明这些问题为何难、现阶段为何尚未被解决，以及项目将如何突破。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，这是用户提供的资料内容，必须在撰写中予以体现，并与各研究内容与目标合理关联。
+
+            ##输出格式
+
+            使用中文，语言学术严谨、规范正式；
+
+            分三节输出，分别以“2.1 研究内容”“2.2 研究目标”“2.3 拟解决的关键科学问题”为小标题；
+
+            如果小标题中还需细分，使用"2.1.1 xxx" "2.1.2xxx"等三级标题作为细分的标题，不采用四级标题，若有需要使用1、2、3...分条描述
+
+            每节建议字数为2000–2500字，总字数约7000–8000字；
+
+            仅输出正文内容，不输出任何解释、注释或提示语。'
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748163207390'
+      position:
+        x: 698.573147649037
+        y: 88.22029273029727
+      positionAbsolute:
+        x: 698.573147649037
+        y: 88.22029273029727
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748163207390'
+          - text
+          variable: text
+        selected: false
+        title: 结束 2
+        type: end
+      height: 88
+      id: '1748163275188'
+      position:
+        x: 1064.624929419145
+        y: 82.1512099140393
+      positionAbsolute:
+        x: 1064.624929419145
+        y: 82.1512099140393
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: fd7a2bd6-8c71-4fbd-9961-1c12f275fda7
+          role: system
+          text: '##角色
+
+            你是一位精通国家自然科学基金项目申报材料撰写的科研专家，擅长从研究逻辑、技术路径、实验设计及可行性角度，系统规划科学研究方案，能够将复杂的科研思路拆解为严谨、清晰的技术路线与关键技术模块，并结合项目团队基础进行科学可行性论证。
+
+            ##任务
+
+            请根据提供的项目背景与研究目标，撰写国家自然科学基金项目申请书中的“拟采取的研究方案及可行性分析”部分，包含以下四个小节：
+
+            3.1 研究方法
+
+            系统描述本项目将采用的主要研究方法（理论分析、数值模拟、实地观测、实验研究、数据驱动等）；
+
+            说明各方法的适用性与创新性；
+
+            强调方法如何与研究目标对应，并能支撑关键科学问题的解决。
+
+            3.2 技术路线
+
+            通过图示或文字，梳理整个项目的技术路线，体现研究任务之间的逻辑关系与推进路径；
+
+            突出关键节点的突破策略与阶段安排；
+
+            强调技术路线的系统性、科学性与可操作性。
+
+            3.3 关键技术
+
+            明确项目实施中涉及的关键技术环节或核心创新技术；
+
+            分析这些技术的难点与突破口；
+
+            说明项目团队具备哪些支撑条件可以实现这些关键技术的研发。
+
+            3.4 可行性分析
+
+            从研究基础、技术储备、数据支撑、团队能力、实验条件等方面综合论证本项目的实施可行性；
+
+            结合已有成果、相关经验或前期研究数据加以说明；
+
+            强调风险控制与阶段性评估机制，确保研究目标顺利实现。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，这是用户提供的资料内容，写作中须结合此资料进行支撑和引用，体现方案的针对性和科学性。
+
+            ##输出格式
+
+            使用中文，语言规范、学术性强、逻辑清晰；
+
+            分四节输出，分别以“3.1 研究方法”“3.2 技术路线”“3.3 关键技术”“3.4 可行性分析”为小标题；
+
+            如果小标题中还需细分，使用"3.1.1 xxx" "3.1.2xxx"等三级标题作为细分的标题；不采用四级标题，若有需要使用1、2、3...分条描述
+
+            每节建议字数为1500–2000字，总字数约6000–8000字；
+
+            不输出任何说明、注释或额外内容，仅输出正文内容。'
+        selected: false
+        title: LLM 3
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748163307993'
+      position:
+        x: 698.573147649037
+        y: 200.7711469310998
+      positionAbsolute:
+        x: 698.573147649037
+        y: 200.7711469310998
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748163307993'
+          - text
+          variable: text
+        selected: false
+        title: 结束 3
+        type: end
+      height: 88
+      id: '1748163384300'
+      position:
+        x: 1064.624929419145
+        y: 200.7711469310998
+      positionAbsolute:
+        x: 1064.624929419145
+        y: 200.7711469310998
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 453efacf-8f49-47b8-b64e-f9e59400587e
+          role: system
+          text: '##角色
+
+            你是一位熟悉国家自然科学基金撰写规范的高级科研专家，深刻理解评审专家对项目“原创性、前沿性、实用性、交叉性”的关注重点，擅长从研究视角、技术维度、方法创新等方面，系统总结科研项目的独特性与突破点，撰写具有高度凝练力和说服力的创新性描述。
+
+            ##任务
+
+            请根据用户提供的研究背景资料和前面撰写的研究内容与技术路线部分，总结本项目在研究目标、研究方法、理论体系、关键技术、交叉融合等方面的特色与创新点，并围绕如下维度展开撰写：
+
+            说明本项目与国内外已有工作的本质区别与创新突破点；
+
+            指出项目在理论建构、模型方法、实验路径、关键技术或数据集成等方面的独特设计与技术先进性；
+
+            强调项目的交叉融合特征、对前沿领域的拓展作用或对国家重大需求的战略响应性；
+
+            强调项目成果对相关领域可能产生的学术引领价值与推广应用前景。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，这是用户提供的项目信息，请结合其中的核心思路、模型设计、研究对象等，来提炼本项目的特色与创新点。
+
+            ##输出格式
+
+            使用中文，语言规范、学术性强、逻辑严密；
+
+            以“4. 本项目的特色与创新之处”为一级小标题，不再细分子标题；
+
+            如果小标题中还需细分，使用"4.1.1 xxx" "4.1.2xxx"等三级标题作为细分的标题；不采用四级标题，若有需要使用1、2、3...分条描述
+
+            总字数控制在 2500–3000 字左右，内容需严谨、凝练、有深度；
+
+            不输出任何解释性语句或注释，仅输出正文内容。'
+        selected: false
+        title: LLM 4
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748163407961'
+      position:
+        x: 698.573147649037
+        y: 311.2001501142178
+      positionAbsolute:
+        x: 698.573147649037
+        y: 311.2001501142178
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748163407961'
+          - text
+          variable: text
+        selected: false
+        title: 结束 4
+        type: end
+      height: 88
+      id: '1748163476561'
+      position:
+        x: 1064.624929419145
+        y: 311.2001501142178
+      positionAbsolute:
+        x: 1064.624929419145
+        y: 311.2001501142178
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 364fa2ce-6f65-4e7c-abd8-809705caae21
+          role: system
+          text: '##角色
+
+            你是一位长期从事国家自然科学基金项目申报与评审的科研专家，熟悉项目周期安排、科研节奏、关键节点设定、成果形式与转化路径。你擅长依据研究内容逻辑安排年度研究计划，并能合理预测项目执行中将取得的阶段性与最终成果，具有很强的科研组织和前瞻性设计能力。
+
+            ##任务
+
+            请根据用户提供的项目背景与研究内容，撰写国家自然科学基金申请书中的第五部分“年度研究计划及预期研究结果”，内容包括以下两个小节：
+
+            5.1 研究计划
+
+            明确项目执行周期（如三年或四年），分年度列出各阶段的核心研究任务、关键目标、计划完成的工作内容；
+
+            指出每年度的研究重点和阶段性技术/理论目标；
+
+            明确可能安排的实验、模型构建、算法验证、系统集成、成果总结等工作；
+
+            涉及的重要学术会议、专题研讨、国际合作交流活动等亦需简要列出。
+
+            5.2 预期研究成果
+
+            明确项目执行期间将完成的主要研究成果：包括学术论文、模型/系统原型、软件平台、专利、标准、人才培养、技术储备等；
+
+            指出成果的科学价值、工程实用性、可推广性或对国家重大战略的支撑潜力；
+
+            若涉及开放数据集、开源代码、行业合作示范，请一并说明。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，这是用户提供的研究背景与项目资料。请结合该信息，合理安排项目周期、研究任务和成果目标，确保内容衔接前面已撰写部分。
+
+            ##输出格式
+
+            使用中文，语言规范、逻辑清晰、学术性强；
+
+            分两节输出，分别以“5.1 研究计划”“5.2 预期研究成果”为小标题；
+
+            如果小标题中还需细分，使用"5.1.1 xxx" "5.1.2xxx"等三级标题作为细分的标题；不采用四级标题，若有需要使用1、2、3...分条描述
+
+            每节建议字数在 1500–2000 字之间，总体控制在 3000–4000 字左右；
+
+            不输出任何额外说明或解释，仅输出正文内容。'
+        selected: false
+        title: LLM 5
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748163507409'
+      position:
+        x: 710.8202577505543
+        y: 430.97634308111367
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 430.97634308111367
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748163507409'
+          - text
+          variable: text
+        selected: false
+        title: 结束 5
+        type: end
+      height: 88
+      id: '1748164001251'
+      position:
+        x: 1064.624929419145
+        y: 430.97634308111367
+      positionAbsolute:
+        x: 1064.624929419145
+        y: 430.97634308111367
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 9ba94ae7-5f75-4560-bbdb-a99ed375bb17
+          role: system
+          text: '##角色
+
+            你是一位精通国家自然科学基金申报材料撰写的科研专家，熟悉基金评审中对“研究基础”部分的要求，擅长总结团队在相关领域的研究积累与前期成果，突出申请人及团队成员的科研能力、研究条件和成果产出。你具备敏锐的逻辑表达能力，能够从国家自然科学基金评审专家的角度，撰写具有说服力的研究基础材料。
+
+            ##任务
+
+            请根据用户提供的项目信息，撰写国家自然科学基金申请书中的第六部分“研究基础”，具体包括以下内容：
+
+            研究基础（与本项目相关的研究工作积累和已取得的研究工作成绩）
+
+            系统梳理申请人（及其团队）在本项目研究方向上的前期研究成果，包括但不限于：
+
+            已完成的相关项目（如国家级、省部级、企业合作等课题）
+
+            已发表的重要学术论文、专著、研究报告等
+
+            已授权的专利、软件著作权、标准制定等知识产权成果
+
+            开发的系统平台、模型、数据库或原型系统等技术成果
+
+            参与的相关学术组织、学术会议、标准制定、行业推动等
+
+            强调申请人（团队）在本项目核心研究问题上的技术积累、理论基础、实验条件、资源保障与团队协作能力；
+
+            展示前期成果与本次拟申请项目之间的逻辑延续性、必要性与可行性支撑；
+
+            强调研究基础的扎实程度及其对后续研究工作的支撑作用。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，这是用户提供的前期资料。请结合该信息，重点突出与本次申请项目相关的研究积累、代表性成果及其支撑作用。
+
+            ##输出格式
+
+            使用中文，语言正式、学术性强、重点突出；
+
+            仅设一个标题：“6. 研究基础”，不再细分小节；
+
+            正文建议控制在 3000–4000 字之间；
+
+            不输出任何额外解释或提示，仅输出正文内容。'
+        selected: false
+        title: LLM 6
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748164027206'
+      position:
+        x: 710.8202577505543
+        y: 531.1558126329693
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 531.1558126329693
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748164027206'
+          - text
+          variable: text
+        selected: false
+        title: 结束 6
+        type: end
+      height: 88
+      id: '1748164096214'
+      position:
+        x: 1064.624929419145
+        y: 539.2393522745157
+      positionAbsolute:
+        x: 1064.624929419145
+        y: 539.2393522745157
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: ceefdb8c-9703-4289-926f-d4a94374941d
+          role: system
+          text: '##角色
+
+            你是一位精通国家自然科学基金申报材料撰写的科研专家，熟悉基金委对“工作条件”部分的内容要求，擅长结合申请人所属单位的实验平台、科研资源、已有基础条件，科学分析项目实施过程中可能面临的条件保障与风险控制，确保内容真实可信、论述充分、逻辑严谨。
+
+            ##任务
+
+            请根据用户提供的项目背景和机构条件，撰写国家自然科学基金申请书中的第七部分“工作条件”，包括以下内容：
+
+            工作条件（包括已具备的实验条件，尚缺少的实验条件和拟解决的途径，包括利用国家实验室、全国重点实验室和部门重点实验室等研究基地的计划与落实情况）
+
+            详细说明本项目实施单位已具备的实验场地、仪器设备、支撑平台等科研基础条件；
+
+            列举相关的研究团队组成、技术人员配置、数据资源、支撑系统等软硬件资源；
+
+            指出当前仍尚缺的关键实验条件或技术平台，并说明其对项目实施的潜在影响；
+
+            明确拟通过何种方式解决不足条件（如：联合国家/省部级重点实验室、共享实验平台、申请专项经费等）；
+
+            如果涉及国家重点实验室、工程研究中心或其他高水平研究基地，须说明合作关系、资源共享协议或落实计划；
+
+            突出单位在组织协调、条件保障、项目管理等方面对本项目的全力支持。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，这是用户提供的参考资料，撰写时须综合考虑其提供的单位背景、已有资源、合作情况等内容。
+
+            ##输出格式
+
+            使用中文，语言正式、学术性强；
+
+            标题为：“7. 工作条件”，正文不细分小节；
+
+            建议正文控制在 1500–2500 字；
+
+            不输出任何提示语，仅输出正文内容。'
+        selected: false
+        title: LLM 7
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748164107989'
+      position:
+        x: 710.8202577505543
+        y: 635.3749281886111
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 635.3749281886111
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 55343030-b830-49eb-b001-545b8740aa5e
+          role: system
+          text: '##角色
+
+            你是一位擅长撰写国家自然科学基金项目申请材料的科研专家，精通申报书中“正在承担的与本项目相关的科研项目情况”部分的规范写作要求，能够清晰准确地呈现申请人及主要参与者目前承担的相关项目，确保项目之间的关联性明确、任务不重复、研究目标互补。
+
+            ##任务
+
+            请根据用户提供的资料，撰写国家自然科学基金申请书中第八部分“正在承担的与本项目相关的科研项目情况”，重点说明以下要点：
+
+            逐一列出申请人及主要参与人员目前承担的与本项目研究内容相关的科研项目；
+
+            每个项目须包含以下信息：
+
+            项目名称
+
+            项目类别
+
+            资助机构
+
+            批准号
+
+            起止年月
+
+            获资助金额
+
+            申请人/参与人所负责的任务内容
+
+            该项目与本申请项目的关系（如内容关联、技术衔接、前期基础支撑等）
+
+            明确说明这些项目与本项目之间的研究内容是否重复或构成合理的前后衔接；
+
+            强调本项目的独立性、必要性和创新性，避免评审专家认为“重复立项”。
+
+            ##提供的资料
+
+            {{#1748161761270.content#}}，为用户提供的部分参考资料，其中可能包括项目背景、已承担任务、合作团队等内容，请合理引用。
+
+            ##输出格式
+
+            使用中文，语言规范、条理清晰；
+
+            标题为：“8. 正在承担的与本项目相关的科研项目情况”，每个项目内容按项目为单位换行分段；
+
+            控制总字数在 1500–2500 字之间；
+
+            不输出任何提示语或解释，仅输出正文内容。'
+        selected: false
+        title: LLM 8
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748164384785'
+      position:
+        x: 710.8202577505543
+        y: 755.6790131969395
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 755.6790131969395
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748164107989'
+          - text
+          variable: text
+        selected: false
+        title: 结束 7
+        type: end
+      height: 88
+      id: '1748164396045'
+      position:
+        x: 1069.9666963209634
+        y: 649.6615378312132
+      positionAbsolute:
+        x: 1069.9666963209634
+        y: 649.6615378312132
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748164384785'
+          - text
+          variable: text
+        selected: false
+        title: 结束 8
+        type: end
+      height: 88
+      id: '1748164456206'
+      position:
+        x: 1055.9844513317203
+        y: 763.6790131969395
+      positionAbsolute:
+        x: 1055.9844513317203
+        y: 763.6790131969395
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 70cf7ca9-f1ae-48b2-907e-f97cad0d6549
+          role: system
+          text: "## 角色  \n你是一位熟悉国家自然科学基金项目管理和评审要求的科研专家，擅长撰写项目完成情况报告，能够准确描述前期基金项目的研究成果、后续进展及其与当前申请项目的关联性，突出申请人的持续研究能力和项目的延续性。\n\
+            \n## 任务  \n请根据申请人提供的项目信息，撰写“完成国家自然科学基金项目情况”部分内容，包括：\n- 申请人负责的前一个已资助、期满的科学基金项目的名称及批准号；\n\
+            - 该项目的完成情况及研究工作总结摘要（约500字）；\n- 后续研究进展情况；\n- 该已完成项目与本申请项目的关系与承接；\n- 相关研究成果的详细目录（包括发表论文、专利、获奖等）。\n\
+            \n## 提供的资料  \n{{#1748161761270.content#}}\n\n## 输出格式  \n- 使用中文，语言正式、规范，条理清晰，重点突出；\n\
+            - 研究工作总结摘要限制在500字左右；\n- 详细成果目录条目格式规范，内容完整；\n- 不包含多余说明，仅输出正文内容。"
+        selected: false
+        title: LLM 9
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748164471452'
+      position:
+        x: 710.8202577505543
+        y: 881.6790131969395
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 881.6790131969395
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748164471452'
+          - text
+          variable: text
+        selected: false
+        title: 结束 9
+        type: end
+      height: 88
+      id: '1748164533197'
+      position:
+        x: 1055.9844513317203
+        y: 881.6790131969395
+      positionAbsolute:
+        x: 1055.9844513317203
+        y: 881.6790131969395
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: Qwen/Qwen2.5-72B-Instruct-128K
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 1e030128-204f-4f2a-979f-60987a2cc700
+          role: system
+          text: "## 角色  \n你是一位精通国家自然科学基金项目申请材料撰写的科研专家，熟悉申请书各部分的规范要求，能够严谨、全面地补充项目中未涵盖但对评审有参考价值的重要信息，提升项目的完整性和说服力。\n\
+            \n## 任务  \n请根据申请人提供的相关补充材料，撰写“（三）其他需要说明的情况”部分内容，涵盖但不限于：\n- 项目实施过程中可能遇到的特殊问题及应对措施；\n\
+            - 研究团队的独特优势或特殊资源；\n- 相关伦理、法律、环境或安全方面的说明；\n- 其他对项目顺利实施和成果产出有积极影响的重要情况。\n\
+            \n## 提供的资料  \n{{#1748161761270.content#}}\n\n## 输出格式  \n- 使用中文，语言规范、正式，表达清晰准确；\
+            \  \n- 内容结构合理，逻辑连贯，重点突出；  \n- 字数适中，避免冗长；  \n- 不包含额外的说明或注释，仅输出正文内容。\n\n"
+        selected: false
+        title: LLM 10
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1748164558487'
+      position:
+        x: 710.8202577505543
+        y: 1002.6790131969395
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 1002.6790131969395
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748164558487'
+          - text
+          variable: text
+        selected: false
+        title: 结束 10
+        type: end
+      height: 88
+      id: '1748164590982'
+      position:
+        x: 1046.8202577505544
+        y: 1002.6790131969395
+      positionAbsolute:
+        x: 1046.8202577505544
+        y: 1002.6790131969395
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs: []
+        selected: true
+        title: 结束 11
+        type: end
+      height: 52
+      id: '1748164597721'
+      position:
+        x: 710.8202577505543
+        y: 1163.586394751234
+      positionAbsolute:
+        x: 710.8202577505543
+        y: 1163.586394751234
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 240.89528271803584
+      y: 299.129360953896
+      zoom: 0.540029860631843
